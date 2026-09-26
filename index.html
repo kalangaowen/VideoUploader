@@ -3,1112 +3,1236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BeatVault PRO - Music & Video Platform</title>
+    <title>VividAI - Music Video Enhancement Studio Pro</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            50: '#eef2ff',
-                            500: '#6366f1',
-                            600: '#4f46e5',
-                            700: '#4338ca',
-                            accent: '#ec4899',
-                            darkBg: '#0b0f19',
-                            cardBg: '#111827',
-                            borderBg: '#1f2937'
+                        studio: {
+                            950: '#050608',
+                            900: '#090a0f',
+                            800: '#12141d',
+                            700: '#1a1d29',
+                            600: '#262a3d',
+                            500: '#3a405c',
+                            accent: '#6366f1',
+                            cyan: '#06b6d4',
+                            emerald: '#10b981',
+                            rose: '#f43f5e'
                         }
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'monospace']
                     }
                 }
             }
         }
     </script>
+    <!-- FontAwesome for Studio Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #0b0f19; color: #f3f4f6; }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #111827; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #374151; border-radius: 9999px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #4b5563; }
-        .glass-panel { background: rgba(17, 24, 39, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .gradient-text { background: linear-gradient(135deg, #818cf8, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        .audio-wave-bar {
-            width: 4px;
-            background: linear-gradient(180deg, #ec4899, #818cf8);
-            border-radius: 4px;
-            animation: waveBounce 1.2s ease-in-out infinite alternate;
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050608;
+            color: #f3f4f6;
+            user-select: none;
         }
-        .audio-wave-bar:nth-child(2n) { animation-delay: 0.2s; }
-        .audio-wave-bar:nth-child(3n) { animation-delay: 0.4s; }
-        .audio-wave-bar:nth-child(4n) { animation-delay: 0.6s; }
-        .audio-wave-bar:nth-child(5n) { animation-delay: 0.1s; }
-        @keyframes waveBounce {
-            0% { height: 12px; }
-            100% { height: 50px; }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
         }
-
-        .fade-transition {
-            transition: opacity 0.5s ease-in-out;
+        ::-webkit-scrollbar-track {
+            background: #12141d;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #262a3d;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3a405c;
+        }
+        .slider-handle {
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.6);
+        }
+        .resizer-handle {
+            width: 10px;
+            height: 10px;
+            background-color: #f43f5e;
+            border: 2px solid #ffffff;
+            position: absolute;
+            border-radius: 50%;
         }
     </style>
 </head>
-<body class="bg-brand-darkBg text-gray-100 min-h-screen flex flex-col custom-scrollbar selection:bg-brand-500 selection:text-white">
+<body class="h-screen flex flex-col overflow-hidden bg-studio-950 text-slate-200">
 
-    <!-- Global Header Nav -->
-    <header class="sticky top-0 z-40 glass-panel border-b border-gray-800/80 px-4 lg:px-8 py-3.5 flex items-center justify-between gap-4">
-        <div class="flex items-center gap-3 cursor-pointer" onclick="resetFilters()">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
-                <i class="fa-solid font-bold fa-play text-white text-lg ml-0.5"></i>
+    <!-- Top Studio Header -->
+    <header class="h-14 bg-studio-800 border-b border-studio-600 px-4 flex items-center justify-between shrink-0 z-20">
+        <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-indigo-600 via-cyan-500 to-emerald-400 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                <i class="fa-solid fa-wand-magic-sparkles text-white text-lg"></i>
             </div>
             <div>
-                <span class="text-xl font-black tracking-wider text-white">BEAT<span class="gradient-text">VAULT</span></span>
-                <span class="hidden sm:inline-block text-[10px] uppercase font-semibold px-2 py-0.5 bg-indigo-500/20 text-indigo-400 rounded-full border border-indigo-500/30 ml-2">PRO</span>
+                <h1 class="font-bold text-base tracking-wide bg-gradient-to-r from-white via-slate-200 to-indigo-300 bg-clip-text text-transparent">VividAI Studio</h1>
+                <p class="text-[10px] text-slate-400 font-mono tracking-tight">ULTRA MUSIC VIDEO AI CLEANUP & ENHANCER v3.0 PRO</p>
             </div>
         </div>
 
-        <div class="flex-1 max-w-xl relative">
-            <div class="relative flex items-center">
-                <i class="fa-solid fa-magnifying-glass absolute left-4 text-gray-400 text-sm pointer-events-none"></i>
-                <input type="text" id="searchInput" oninput="handleSearch(event)" placeholder="Search songs, artists, genres..." class="w-full bg-gray-900/90 text-sm text-gray-200 pl-11 pr-10 py-2.5 rounded-full border border-gray-700/60 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all placeholder-gray-500">
-                <button onclick="clearSearch()" id="clearSearchBtn" class="hidden absolute right-3 text-gray-400 hover:text-white p-1">
-                    <i class="fa-solid fa-circle-xmark text-sm"></i>
-                </button>
+        <!-- Center Quick Actions & Status -->
+        <div class="hidden md:flex items-center space-x-6 text-xs font-mono">
+            <div class="flex items-center space-x-2 bg-studio-700/60 px-3 py-1.5 rounded-full border border-studio-600">
+                <span id="gpuStatusDot" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="text-slate-300">GPU Engine: <strong id="gpuModeText" class="text-emerald-400">WebGL2 Accelerated</strong></span>
+            </div>
+            <div class="text-slate-400">
+                Resolution: <span id="resBadge" class="text-white font-semibold">1080p AI Scale</span>
             </div>
         </div>
 
-        <div class="flex items-center gap-3">
-            <!-- Role Toggle Control -->
-            <button onclick="toggleRoleMode()" id="roleToggleBtn" title="Switch User/Admin Role" class="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs font-semibold px-3.5 py-2 rounded-full border border-gray-700 transition-all">
-                <i id="roleIcon" class="fa-solid fa-user-lock text-amber-400"></i>
-                <span id="roleText">Role: Public User</span>
+        <!-- Right Header Tools -->
+        <div class="flex items-center space-x-3">
+            <button id="btnStartTour" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-600/30 hover:bg-indigo-600/50 border border-indigo-500/50 text-indigo-300 transition-all flex items-center space-x-2">
+                <i class="fa-solid fa-compass text-indigo-400"></i>
+                <span>Guide</span>
             </button>
-
-            <!-- Admin Upload Track Button (Only visible in Admin Mode) -->
-            <button id="uploadTrackBtn" onclick="openUploadModal()" class="hidden flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-sm font-medium px-4 py-2.5 rounded-full shadow-lg shadow-indigo-600/20 transition-all transform active:scale-95">
-                <i class="fa-solid fa-cloud-arrow-up text-base"></i>
-                <span class="hidden sm:inline">Upload Track</span>
+            <button id="btnLoadSample" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-studio-700 hover:bg-studio-600 border border-studio-600 text-slate-200 transition-all flex items-center space-x-2">
+                <i class="fa-solid fa-film text-indigo-400"></i>
+                <span>Demo Video</span>
             </button>
-
-            <button onclick="toggleSavedFilter()" id="savedFilterBtn" title="Saved Tracks" class="w-10 h-10 rounded-full bg-gray-800 hover:bg-gray-700 border border-gray-700 flex items-center justify-center text-gray-300 hover:text-amber-400 transition-colors relative">
-                <i class="fa-solid fa-bookmark"></i>
-                <span id="savedBadge" class="hidden absolute -top-1 -right-1 bg-pink-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+            <label for="videoFileInput" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white cursor-pointer shadow-md shadow-indigo-600/30 transition-all flex items-center space-x-2">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <span>Upload Video</span>
+            </label>
+            <input type="file" id="videoFileInput" accept="video/*" class="hidden">
+            
+            <button id="btnExport" class="px-4 py-1.5 text-xs font-semibold rounded-lg bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white shadow-lg shadow-emerald-500/20 transition-all flex items-center space-x-2">
+                <i class="fa-solid fa-download"></i>
+                <span>Export Clean Video</span>
             </button>
         </div>
     </header>
 
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-8 py-6 space-y-8">
+    <!-- Main Studio Workspace -->
+    <div class="flex-1 flex overflow-hidden relative">
+        
+        <!-- Left Processing Sidebar -->
+        <aside id="sidebarStep" class="w-80 bg-studio-800 border-r border-studio-600 flex flex-col shrink-0 overflow-y-auto z-10">
+            <div class="p-4 border-b border-studio-700/80">
+                <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center justify-between">
+                    <span>AI Video Enhancement Controls</span>
+                    <i class="fa-solid fa-sliders text-indigo-400"></i>
+                </h2>
+            </div>
 
-        <!-- Hero Video Showcase Carousel -->
-        <section id="heroSection" class="relative rounded-3xl overflow-hidden shadow-2xl border border-gray-800 group" onmouseenter="pauseHeroCarousel()" onmouseleave="startHeroCarousel()">
-            <div class="relative h-[320px] sm:h-[420px] md:h-[480px] w-full bg-slate-900">
-                <img id="heroImage" src="" alt="Featured Media" class="w-full h-full object-cover brightness-75 group-hover:scale-105 transition-all duration-700 ease-out fade-transition">
-                <div class="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/50 to-transparent"></div>
-                <div class="absolute inset-0 bg-gradient-to-r from-gray-950/90 via-transparent to-transparent"></div>
+            <div class="p-4 space-y-6 flex-1">
 
-                <div class="absolute bottom-0 left-0 p-6 sm:p-10 max-w-2xl space-y-3 sm:space-y-4 z-10">
-                    <div class="flex items-center gap-2">
-                        <span class="px-3 py-1 bg-pink-600 text-white text-xs font-bold uppercase tracking-wider rounded-full flex items-center gap-1.5 shadow-md">
-                            <i class="fa-solid fa-fire text-amber-300"></i> Featured Premiere
-                        </span>
-                        <span id="heroTypeTag" class="px-2.5 py-1 bg-indigo-500/30 text-indigo-300 text-xs font-bold rounded-full border border-indigo-400/30 uppercase tracking-wider"></span>
-                        <span id="heroGenre" class="px-3 py-1 bg-gray-800/80 backdrop-blur-md text-gray-300 text-xs font-semibold rounded-full border border-gray-700"></span>
+                <!-- Watermark & Logo Inpaint Group -->
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <label class="text-xs font-semibold text-slate-200 flex items-center space-x-2">
+                            <i class="fa-solid fa-eraser text-rose-400"></i>
+                            <span>Watermark & Logo Clean</span>
+                        </label>
+                        <input type="checkbox" id="chkWatermark" checked class="w-4 h-4 accent-indigo-500 rounded cursor-pointer">
                     </div>
-                    <h1 id="heroTitle" class="text-2xl sm:text-4xl md:text-5xl font-black text-white leading-tight drop-shadow-md fade-transition"></h1>
-                    <p id="heroArtist" class="text-lg sm:text-xl font-medium text-indigo-300 flex items-center gap-2 fade-transition">
-                        <i class="fa-solid fa-circle-check text-indigo-400 text-sm"></i> <span></span>
-                    </p>
-                    <p id="heroDescription" class="text-sm text-gray-300 line-clamp-2 max-w-xl font-light fade-transition"></p>
+                    <div id="watermarkControls" class="p-3 bg-studio-700/40 rounded-xl border border-studio-600/60 space-y-2">
+                        <div class="text-[11px] text-slate-400 flex justify-between">
+                            <span>Inpaint Blur Density</span>
+                            <span id="txtWatermarkBlur" class="font-mono text-indigo-400">12px</span>
+                        </div>
+                        <input type="range" id="rngWatermarkBlur" min="2" max="40" value="12" class="w-full h-1.5 bg-studio-600 rounded-lg appearance-none cursor-pointer accent-indigo-500">
+                        <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+                            <span>Watermark Selection Box:</span>
+                            <button id="btnToggleMaskGuide" class="text-indigo-400 hover:text-indigo-300 font-mono underline">Hide Box</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Denoise & Sharpening -->
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <label class="text-xs font-semibold text-slate-200 flex items-center space-x-2">
+                            <i class="fa-solid fa-filter text-cyan-400"></i>
+                            <span>AI Denoise & Details</span>
+                        </label>
+                        <input type="checkbox" id="chkDenoise" checked class="w-4 h-4 accent-indigo-500 rounded cursor-pointer">
+                    </div>
+                    <div class="p-3 bg-studio-700/40 rounded-xl border border-studio-600/60 space-y-3">
+                        <div>
+                            <div class="text-[11px] text-slate-400 flex justify-between mb-1">
+                                <span>Spatial Grain Denoise</span>
+                                <span id="txtDenoiseVal" class="font-mono text-cyan-400">65%</span>
+                            </div>
+                            <input type="range" id="rngDenoise" min="0" max="100" value="65" class="w-full h-1.5 bg-studio-600 rounded-lg appearance-none cursor-pointer accent-cyan-500">
+                        </div>
+                        <div>
+                            <div class="text-[11px] text-slate-400 flex justify-between mb-1">
+                                <span>Unsharp Mask Sharpening</span>
+                                <span id="txtSharpenVal" class="font-mono text-cyan-400">40%</span>
+                            </div>
+                            <input type="range" id="rngSharpen" min="0" max="100" value="40" class="w-full h-1.5 bg-studio-600 rounded-lg appearance-none cursor-pointer accent-cyan-500">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Color & HDR AI Enhancement -->
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <label class="text-xs font-semibold text-slate-200 flex items-center space-x-2">
+                            <i class="fa-solid fa-palette text-amber-400"></i>
+                            <span>HDR Color Enhancement</span>
+                        </label>
+                        <input type="checkbox" id="chkColorEnhance" checked class="w-4 h-4 accent-indigo-500 rounded cursor-pointer">
+                    </div>
+                    <div class="p-3 bg-studio-700/40 rounded-xl border border-studio-600/60 space-y-3">
+                        <div>
+                            <div class="text-[11px] text-slate-400 flex justify-between mb-1">
+                                <span>Saturation & Vibrance</span>
+                                <span id="txtColorVal" class="font-mono text-amber-400">+25%</span>
+                            </div>
+                            <input type="range" id="rngColor" min="0" max="100" value="65" class="w-full h-1.5 bg-studio-600 rounded-lg appearance-none cursor-pointer accent-amber-500">
+                        </div>
+                        <div>
+                            <div class="text-[11px] text-slate-400 flex justify-between mb-1">
+                                <span>Contrast Boost</span>
+                                <span id="txtContrastVal" class="font-mono text-amber-400">+15%</span>
+                            </div>
+                            <input type="range" id="rngContrast" min="0" max="100" value="58" class="w-full h-1.5 bg-studio-600 rounded-lg appearance-none cursor-pointer accent-amber-500">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Audio Spectrum Visualizer Overlay -->
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <label class="text-xs font-semibold text-slate-200 flex items-center space-x-2">
+                            <i class="fa-solid fa-wave-square text-emerald-400"></i>
+                            <span>Audio Spectrum Overlay</span>
+                        </label>
+                        <input type="checkbox" id="chkVisualizer" checked class="w-4 h-4 accent-indigo-500 rounded cursor-pointer">
+                    </div>
+                    <div class="p-3 bg-studio-700/40 rounded-xl border border-studio-600/60 space-y-3">
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-slate-400 text-[11px]">Visualizer Style</span>
+                            <select id="selVisStyle" class="bg-studio-800 border border-studio-600 text-xs rounded px-2 py-1 text-slate-200 focus:outline-none focus:border-indigo-500">
+                                <option value="bars">Neon Frequency Bars</option>
+                                <option value="wave">Oscilloscope Waveform</option>
+                                <option value="particles">Bass Pulsing Glow</option>
+                            </select>
+                        </div>
+                        <div>
+                            <div class="text-[11px] text-slate-400 flex justify-between mb-1">
+                                <span>Overlay Opacity</span>
+                                <span id="txtVisOpacity" class="font-mono text-emerald-400">70%</span>
+                            </div>
+                            <input type="range" id="rngVisOpacity" min="10" max="100" value="70" class="w-full h-1.5 bg-studio-600 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resolution Preset -->
+                <div class="space-y-2 pt-2 border-t border-studio-700">
+                    <label class="text-xs font-semibold text-slate-300 block">AI Resolution Scale Target</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button class="res-btn active border border-indigo-500 bg-indigo-500/20 text-indigo-300 py-1.5 rounded-lg text-xs font-mono font-medium transition-all" data-res="1080p" data-scale="1">1080p HD</button>
+                        <button class="res-btn border border-studio-600 bg-studio-700/50 hover:bg-studio-700 text-slate-400 py-1.5 rounded-lg text-xs font-mono font-medium transition-all" data-res="2K" data-scale="1.33">2K QHD</button>
+                        <button class="res-btn border border-studio-600 bg-studio-700/50 hover:bg-studio-700 text-slate-400 py-1.5 rounded-lg text-xs font-mono font-medium transition-all" data-res="4K" data-scale="2">4K Ultra</button>
+                    </div>
+                </div>
+
+            </div>
+        </aside>
+
+        <!-- Center Viewport Player Studio -->
+        <main class="flex-1 flex flex-col bg-studio-950 relative overflow-hidden">
+            
+            <div id="canvasContainer" class="flex-1 relative flex items-center justify-center p-4 select-none overflow-hidden bg-black/80">
+                
+                <!-- HTML5 Source Video Element -->
+                <video id="rawVideo" class="hidden" loop crossorigin="anonymous" playsinline></video>
+
+                <!-- Video Viewport Box -->
+                <div id="videoViewport" class="relative max-w-full max-h-full aspect-video rounded-xl overflow-hidden shadow-2xl border border-studio-700/80 bg-slate-950 flex items-center justify-center">
                     
-                    <div class="flex flex-wrap items-center gap-3 pt-2">
-                        <button id="heroPlayBtn" class="flex items-center gap-2 bg-white text-gray-950 hover:bg-indigo-50 font-bold px-6 py-3 rounded-full shadow-xl transition-all transform hover:scale-105 active:scale-95 text-sm sm:text-base">
-                            <i class="fa-solid fa-play text-indigo-600"></i> Play Now
-                        </button>
-                        <button id="heroDownloadBtn" class="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold px-6 py-3 rounded-full shadow-xl transition-all transform hover:scale-105 active:scale-95 text-sm sm:text-base">
-                            <i class="fa-solid fa-download text-white"></i> Download File
-                        </button>
+                    <!-- Main WebGL Acceleration Output Canvas -->
+                    <canvas id="outputCanvas" class="w-full h-full object-contain block"></canvas>
+                    
+                    <!-- Split Screen Comparison Clip (Original Raw Overlay) -->
+                    <div id="comparisonClipContainer" class="absolute top-0 left-0 bottom-0 overflow-hidden border-r-2 border-indigo-500 z-10" style="width: 50%;">
+                        <canvas id="rawCanvas" class="absolute top-0 left-0 h-full object-contain block"></canvas>
+                        <span class="absolute top-3 left-3 bg-black/80 backdrop-blur-md text-amber-400 text-[10px] font-mono font-bold px-2.5 py-1 rounded-md border border-amber-500/30 tracking-wider">
+                            ORIGINAL RAW VIDEO
+                        </span>
+                    </div>
+
+                    <span class="absolute top-3 right-3 bg-black/80 backdrop-blur-md text-emerald-400 text-[10px] font-mono font-bold px-2.5 py-1 rounded-md border border-emerald-500/30 tracking-wider z-0">
+                        <i class="fa-solid fa-sparkles text-emerald-400 mr-1"></i> AI ENHANCED CLEAN
+                    </span>
+
+                    <!-- Interactive Watermark Drag Box -->
+                    <div id="watermarkBox" class="absolute cursor-move border-2 border-dashed border-rose-500 bg-rose-500/20 rounded z-20 flex items-center justify-center group" style="top: 10%; right: 5%; width: 22%; height: 16%;">
+                        <span class="text-[10px] font-mono text-rose-200 font-bold bg-black/80 px-1.5 py-0.5 rounded border border-rose-500/50 opacity-90 group-hover:opacity-100 pointer-events-none">
+                            Watermark Clean Area
+                        </span>
+                        <div id="boxResizer" class="resizer-handle -bottom-1.5 -right-1.5 cursor-se-resize"></div>
+                    </div>
+
+                    <!-- Split Handle Slider -->
+                    <div id="sliderHandle" class="absolute top-0 bottom-0 w-1 bg-indigo-500 z-30 cursor-ew-resize flex items-center justify-center" style="left: 50%;">
+                        <div class="w-8 h-8 rounded-full bg-indigo-600 border-2 border-white text-white flex items-center justify-center text-xs shadow-xl slider-handle">
+                            <i class="fa-solid fa-arrows-left-right text-[10px]"></i>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Carousel Controls & Indicators -->
-                <div class="absolute bottom-6 right-6 sm:bottom-10 sm:right-10 flex items-center gap-3 z-20">
-                    <button onclick="prevFeaturedSlide()" class="w-9 h-9 rounded-full bg-gray-900/80 hover:bg-indigo-600 text-white border border-gray-700/80 flex items-center justify-center transition-all backdrop-blur-sm">
-                        <i class="fa-solid fa-chevron-left text-xs"></i>
-                    </button>
-                    <div id="heroIndicators" class="flex items-center gap-1.5 bg-gray-950/60 backdrop-blur-md px-3 py-2 rounded-full border border-gray-800"></div>
-                    <button onclick="nextFeaturedSlide()" class="w-9 h-9 rounded-full bg-gray-900/80 hover:bg-indigo-600 text-white border border-gray-700/80 flex items-center justify-center transition-all backdrop-blur-sm">
-                        <i class="fa-solid fa-chevron-right text-xs"></i>
-                    </button>
+                <!-- Drag & Drop File Overlay -->
+                <div id="dropZoneOverlay" class="absolute inset-0 bg-indigo-950/80 backdrop-blur-md border-4 border-dashed border-indigo-400 z-40 flex flex-col items-center justify-center text-white opacity-0 pointer-events-none transition-opacity duration-200">
+                    <i class="fa-solid fa-cloud-arrow-up text-5xl mb-3 animate-bounce text-indigo-400"></i>
+                    <h2 class="text-xl font-bold">Drop Video File to Open in VividAI Studio</h2>
+                    <p class="text-xs text-indigo-200 mt-1 font-mono">Supports MP4, MOV, WEBM audio/video tracks</p>
                 </div>
+
             </div>
-        </section>
 
-        <!-- Category Chips -->
-        <div class="flex items-center gap-2 overflow-x-auto pb-2 custom-scrollbar text-sm font-medium" id="categoryChips">
-            <button onclick="filterCategory('MUSIC')" class="category-btn active px-5 py-2.5 rounded-full bg-indigo-600 text-white whitespace-nowrap transition-all shadow-md">MUSIC</button>
-            <button onclick="filterCategory('ENTERTAINMENT')" class="category-btn px-5 py-2.5 rounded-full bg-gray-800/80 hover:bg-gray-700 text-gray-300 border border-gray-700/60 whitespace-nowrap transition-all">ENTERTAINMENT</button>
-            <button onclick="filterCategory('WEDDINGS')" class="category-btn px-5 py-2.5 rounded-full bg-gray-800/80 hover:bg-gray-700 text-gray-300 border border-gray-700/60 whitespace-nowrap transition-all">WEDDINGS</button>
-            <button onclick="filterCategory('POETRY')" class="category-btn px-5 py-2.5 rounded-full bg-gray-800/80 hover:bg-gray-700 text-gray-300 border border-gray-700/60 whitespace-nowrap transition-all">POETRY</button>
-        </div>
+            <!-- Timeline Bottom Controls -->
+            <div id="timelineStep" class="h-20 bg-studio-800 border-t border-studio-600 px-6 flex flex-col justify-center space-y-2 shrink-0 z-10">
+                
+                <div class="flex items-center space-x-3">
+                    <span id="txtCurrentTime" class="text-xs font-mono text-slate-400 w-10 text-right">00:00</span>
+                    <div class="flex-1 relative cursor-pointer group py-1" id="seekTrackContainer">
+                        <div class="h-2 bg-studio-700 rounded-full overflow-hidden">
+                            <div id="seekBarProgress" class="h-full bg-gradient-to-r from-indigo-500 via-cyan-400 to-emerald-400 w-0"></div>
+                        </div>
+                        <input type="range" id="seekBar" min="0" max="100" value="0" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                    </div>
+                    <span id="txtDuration" class="text-xs font-mono text-slate-400 w-10">00:00</span>
+                </div>
 
-        <!-- Layout Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            <div class="lg:col-span-3 space-y-6">
                 <div class="flex items-center justify-between">
-                    <h2 id="feedTitle" class="text-xl font-bold text-white flex items-center gap-2.5">
-                        <i class="fa-solid fa-compact-disc text-indigo-400"></i> Explore Media
-                    </h2>
-                    <span id="videoCountBadge" class="text-xs font-semibold px-2.5 py-1 bg-gray-800 text-gray-400 rounded-lg border border-gray-700">0 Tracks</span>
-                </div>
-
-                <div id="videoGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5"></div>
-
-                <div id="emptyState" class="hidden flex-col items-center justify-center py-16 text-center bg-gray-900/40 rounded-3xl border border-dashed border-gray-800 space-y-3">
-                    <div class="w-16 h-16 rounded-full bg-gray-800 flex items-center justify-center text-gray-500 text-2xl">
-                        <i class="fa-solid fa-music"></i>
-                    </div>
-                    <h3 class="text-lg font-semibold text-gray-300">No Media Found</h3>
-                    <p class="text-sm text-gray-500 max-w-sm">Try tweaking your search term or filter category!</p>
-                </div>
-            </div>
-
-            <div class="space-y-6">
-                <div class="glass-panel p-5 rounded-2xl border border-gray-800 space-y-4">
-                    <div class="flex items-center justify-between pb-3 border-b border-gray-800">
-                        <h3 class="font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-chart-line text-pink-500"></i> Trending Charts
-                        </h3>
-                        <span class="text-[11px] text-gray-400 font-medium uppercase tracking-wider">Top Views</span>
-                    </div>
-
-                    <div id="trendingList" class="space-y-3"></div>
-                </div>
-
-                <div class="p-5 rounded-2xl bg-gradient-to-br from-indigo-900/40 via-purple-900/20 to-gray-900 border border-indigo-500/20 space-y-3 text-xs text-gray-300">
-                    <div class="flex items-center gap-2 text-indigo-400 font-bold uppercase tracking-wider">
-                        <i class="fa-solid fa-circle-info"></i> Direct Downloads
-                    </div>
-                    <p class="leading-relaxed">All public media files are hosted for fast playback and high-speed offline file saving.</p>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- Player Modal -->
-    <div id="playerModal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-lg flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-y-auto">
-        <div class="bg-gray-900 border border-gray-800 w-full max-w-5xl rounded-2xl overflow-hidden shadow-2xl relative flex flex-col max-h-[92vh] my-auto">
-            <div class="flex items-center justify-between px-5 py-3 border-b border-gray-800 bg-gray-950/60">
-                <div class="flex items-center gap-2 text-xs font-semibold text-gray-400">
-                    <span id="modalMediaTypeBadge" class="px-2 py-0.5 rounded bg-pink-500/20 text-pink-400 border border-pink-500/30 uppercase text-[10px] font-bold"></span>
-                    <span id="modalGenreTag" class="px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-400 border border-indigo-500/30"></span>
-                    <span>&bull;</span>
-                    <span id="modalReleaseDate"></span>
-                </div>
-                <button onclick="closePlayerModal()" class="w-8 h-8 rounded-full bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white flex items-center justify-center transition-colors">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-
-            <!-- Media Container -->
-            <div class="relative bg-black aspect-video w-full flex items-center justify-center overflow-hidden">
-                <div id="mediaSpinner" class="hidden absolute inset-0 z-10 bg-black/60 flex items-center justify-center">
-                    <i class="fa-solid fa-circle-notch fa-spin text-3xl text-indigo-500"></i>
-                </div>
-                <div id="mediaErrorOverlay" class="hidden absolute inset-0 z-20 bg-gray-950/90 flex flex-col items-center justify-center p-4 text-center space-y-3">
-                    <i class="fa-solid fa-triangle-exclamation text-3xl text-pink-500"></i>
-                    <p class="text-sm font-medium text-gray-300">Unable to stream audio/video link or format unsupported.</p>
-                    <button onclick="reloadMediaPlayer()" class="text-xs bg-indigo-600 px-4 py-2 rounded-lg font-bold">Retry Playback</button>
-                </div>
-
-                <video id="modalVideoPlayer" controls class="w-full h-full object-contain focus:outline-none hidden" poster="" preload="metadata">
-                    <source id="videoSource" src="" type="video/mp4">
-                    Your browser does not support HTML5 video.
-                </video>
-
-                <div id="modalAudioContainer" class="hidden w-full h-full relative flex flex-col items-center justify-center p-6 bg-gradient-to-b from-gray-900 via-indigo-950/60 to-gray-950">
-                    <img id="audioPoster" src="" class="absolute inset-0 w-full h-full object-cover opacity-20 blur-xl">
-                    <div class="relative z-10 flex flex-col items-center space-y-5 w-full max-w-md text-center">
-                        <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl overflow-hidden shadow-2xl border-2 border-indigo-500/30 relative group">
-                            <img id="audioCoverImage" src="" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
-                                <i class="fa-solid fa-music text-3xl text-indigo-400"></i>
-                            </div>
-                        </div>
+                    <div class="flex items-center space-x-4">
+                        <button id="btnPlayPause" class="w-9 h-9 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white flex items-center justify-center shadow-lg shadow-indigo-600/30 transition-all">
+                            <i id="icoPlayPause" class="fa-solid fa-play text-sm ml-0.5"></i>
+                        </button>
                         
-                        <div class="flex items-center gap-1.5 h-12">
-                            <div class="audio-wave-bar"></div>
-                            <div class="audio-wave-bar"></div>
-                            <div class="audio-wave-bar"></div>
-                            <div class="audio-wave-bar"></div>
-                            <div class="audio-wave-bar"></div>
-                            <div class="audio-wave-bar"></div>
-                            <div class="audio-wave-bar"></div>
-                            <div class="audio-wave-bar"></div>
-                        </div>
+                        <button id="btnMute" class="text-slate-400 hover:text-slate-200 transition-colors">
+                            <i id="icoMute" class="fa-solid fa-volume-high text-sm"></i>
+                        </button>
+                        <input type="range" id="rngVolume" min="0" max="1" step="0.05" value="0.8" class="w-20 h-1 bg-studio-600 rounded-lg appearance-none cursor-pointer accent-indigo-500">
 
-                        <audio id="modalAudioPlayer" controls class="w-full focus:outline-none">
-                            <source id="audioSource" src="" type="audio/mpeg">
-                            Your browser does not support HTML5 audio.
-                        </audio>
+                        <div class="h-4 w-px bg-studio-600 mx-1"></div>
+
+                        <span class="text-xs font-mono text-slate-400">
+                            Split Ratio: <span id="txtSplitPercent" class="text-indigo-400 font-bold">50%</span>
+                        </span>
+                    </div>
+
+                    <div class="flex items-center space-x-4 text-xs">
+                        <button id="btnResetFilters" class="text-slate-400 hover:text-rose-400 transition-colors flex items-center space-x-1.5">
+                            <i class="fa-solid fa-rotate-left"></i>
+                            <span>Reset Filters</span>
+                        </button>
+
+                        <button id="btnFullscreen" class="text-slate-400 hover:text-slate-100 transition-colors">
+                            <i class="fa-solid fa-expand text-base"></i>
+                        </button>
                     </div>
                 </div>
+
             </div>
 
-            <div class="p-5 sm:p-6 overflow-y-auto custom-scrollbar space-y-6 flex-1 bg-gray-900">
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-800 pb-5">
-                    <div class="space-y-1">
-                        <h2 id="modalTitle" class="text-xl sm:text-2xl font-bold text-white"></h2>
-                        <div class="flex items-center gap-3 text-sm text-indigo-400 font-medium">
-                            <span id="modalArtist" class="flex items-center gap-1.5"><i class="fa-solid fa-user-check text-xs"></i> <span></span></span>
-                            <span class="text-gray-600">&bull;</span>
-                            <span id="modalViews" class="text-gray-400 text-xs"></span>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-wrap items-center gap-2">
-                        <!-- Admin Only Feature Premiere Toggle -->
-                        <button id="modalFeatureBtn" class="hidden flex items-center gap-2 bg-pink-600/20 border border-pink-500/40 text-pink-400 hover:bg-pink-600 hover:text-white px-4 py-2 rounded-xl text-sm font-medium transition-all">
-                            <i class="fa-solid fa-fire"></i>
-                            <span id="modalFeatureBtnText">Feature Premiere</span>
-                        </button>
-
-                        <!-- Admin Only Delete Track Option -->
-                        <button id="modalDeleteBtn" class="hidden flex items-center gap-2 bg-red-600/20 border border-red-500/40 text-red-400 hover:bg-red-600 hover:text-white px-4 py-2 rounded-xl text-sm font-medium transition-all">
-                            <i class="fa-solid fa-trash"></i>
-                            <span>Delete</span>
-                        </button>
-
-                        <button id="modalBookmarkBtn" class="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-gray-200 px-4 py-2 rounded-xl text-sm font-medium border border-gray-700 transition-all">
-                            <i class="fa-regular fa-bookmark text-amber-400"></i>
-                            <span>Save</span>
-                        </button>
-
-                        <button onclick="shareCurrentVideo()" class="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-gray-200 px-4 py-2 rounded-xl text-sm font-medium border border-gray-700 transition-all">
-                            <i class="fa-solid fa-share-nodes text-indigo-400"></i>
-                            <span>Share</span>
-                        </button>
-
-                        <!-- Primary Download Action for Users -->
-                        <div class="relative">
-                            <button id="downloadDropdownBtn" onclick="toggleDownloadDropdown(event)" class="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold px-5 py-2.5 rounded-xl text-sm shadow-lg shadow-indigo-600/20 transition-all">
-                                <i class="fa-solid fa-download"></i>
-                                <span>Download Material</span>
-                                <i class="fa-solid fa-chevron-down text-xs ml-1"></i>
-                            </button>
-                            <div id="downloadMenu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-700 rounded-xl shadow-2xl py-2 z-30 space-y-1">
-                                <div class="px-3 py-1 text-[10px] font-bold uppercase text-gray-400 tracking-wider">Select Download Format</div>
-                                <button onclick="triggerDownload('hd')" class="w-full text-left px-4 py-2 text-xs text-gray-200 hover:bg-indigo-600 flex items-center justify-between">
-                                    <span>Full Original Quality</span> <i class="fa-solid fa-circle-arrow-down text-indigo-400"></i>
-                                </button>
-                                <button onclick="triggerDownload('mp3')" class="w-full text-left px-4 py-2 text-xs text-indigo-300 font-medium hover:bg-indigo-600 flex items-center justify-between">
-                                    <span>Audio Track (MP3)</span> <i class="fa-solid fa-music"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-gray-950/60 p-4 rounded-xl border border-gray-800/80 space-y-2">
-                    <h4 class="text-xs font-bold uppercase text-gray-400 tracking-wider">About Track</h4>
-                    <p id="modalDescription" class="text-sm text-gray-300 leading-relaxed font-light"></p>
-                </div>
-            </div>
-        </div>
+        </main>
     </div>
 
-    <!-- Admin Upload Modal -->
-    <div id="uploadModal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-gray-900 border border-gray-800 w-full max-w-xl rounded-3xl overflow-hidden shadow-2xl relative p-6 space-y-5 my-auto">
-            <div class="flex items-center justify-between border-b border-gray-800 pb-4">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-lg bg-indigo-600/20 text-indigo-400 flex items-center justify-center">
-                        <i class="fa-solid fa-cloud-arrow-up"></i>
+    <!-- AI Real-Time Hardware Processing Modal -->
+    <div id="exportModal" class="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-studio-800 border border-studio-600 rounded-2xl p-6 max-w-lg w-full shadow-2xl space-y-5 relative overflow-hidden">
+            
+            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 via-cyan-400 to-emerald-400"></div>
+
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-lg border border-indigo-500/30">
+                        <i id="exportSpinner" class="fa-solid fa-microchip animate-spin"></i>
                     </div>
-                    <h3 class="text-lg font-bold text-white">Admin Upload Portal</h3>
+                    <div>
+                        <h3 class="font-bold text-slate-100 text-sm">Hardware GPU Video Export Engine</h3>
+                        <p class="text-[11px] text-slate-400 font-mono" id="exportSubtitle">Frame-Accurate Processing Pipeline Active</p>
+                    </div>
                 </div>
-                <button onclick="closeUploadModal()" class="text-gray-400 hover:text-white p-1">
+                <button id="btnCloseModal" class="text-slate-400 hover:text-slate-200">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
 
-            <form id="uploadForm" onsubmit="handleUploadSubmit(event)" class="space-y-4 text-xs sm:text-sm">
-                <div class="space-y-1">
-                    <label class="block text-xs font-semibold text-gray-300">Media File (Audio or Video) *</label>
-                    <div id="dropZone" onclick="document.getElementById('mediaFileInput').click()" class="border-2 border-dashed border-gray-700 hover:border-indigo-500 bg-gray-950/60 hover:bg-indigo-950/10 rounded-2xl p-6 text-center cursor-pointer transition-all space-y-2">
-                        <div class="flex justify-center gap-3 text-indigo-400 text-2xl">
-                            <i class="fa-solid fa-file-audio"></i>
-                            <i class="fa-solid fa-file-video"></i>
-                        </div>
-                        <div id="dropZoneText" class="space-y-1">
-                            <p class="font-medium text-gray-200">Click to browse or drag & drop file</p>
-                            <p class="text-xs text-gray-500">Audio (MP3, WAV, AAC) or Video (MP4, WebM, MOV)</p>
-                        </div>
-                        <input type="file" id="mediaFileInput" accept="audio/*,video/*" onchange="handleFileSelect(event)" class="hidden">
-                    </div>
+            <!-- Progress Bar -->
+            <div class="space-y-1.5">
+                <div class="flex justify-between text-xs font-mono">
+                    <span id="exportStepText" class="text-slate-300">Rendering frame-by-frame...</span>
+                    <span id="exportPercentText" class="text-emerald-400 font-bold">0%</span>
                 </div>
+                <div class="h-3 bg-studio-900 rounded-full overflow-hidden p-0.5 border border-studio-700">
+                    <div id="exportProgressBar" class="h-full bg-gradient-to-r from-indigo-500 via-cyan-400 to-emerald-400 rounded-full w-0 transition-all duration-150"></div>
+                </div>
+            </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="space-y-1">
-                        <label class="block text-xs font-semibold text-gray-300">Track Title *</label>
-                        <input type="text" id="uploadTitle" required placeholder="e.g. Midnight Beats" class="w-full bg-gray-950 text-gray-200 px-3.5 py-2.5 rounded-xl border border-gray-800 focus:outline-none focus:border-indigo-500">
-                    </div>
-                    <div class="space-y-1">
-                        <label class="block text-xs font-semibold text-gray-300">Artist / Band Name *</label>
-                        <input type="text" id="uploadArtist" required placeholder="e.g. DJ Pulse" class="w-full bg-gray-950 text-gray-200 px-3.5 py-2.5 rounded-xl border border-gray-800 focus:outline-none focus:border-indigo-500">
-                    </div>
+            <!-- Details Dashboard -->
+            <div class="grid grid-cols-2 gap-3 text-xs font-mono bg-studio-900/80 p-3 rounded-xl border border-studio-700/60">
+                <div>
+                    <span class="text-slate-500 block text-[10px]">RENDERED TIME</span>
+                    <span id="txtRenderedTime" class="text-slate-200">0.0s / 0.0s</span>
                 </div>
+                <div>
+                    <span class="text-slate-500 block text-[10px]">OUTPUT TARGET</span>
+                    <span id="txtExportRes" class="text-slate-200">1080p WebM/MP4</span>
+                </div>
+            </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="space-y-1">
-                        <label class="block text-xs font-semibold text-gray-300">Genre Tag *</label>
-                        <select id="uploadGenre" class="w-full bg-gray-950 text-gray-200 px-3 py-2.5 rounded-xl border border-gray-800 focus:outline-none focus:border-indigo-500">
-                            <option value="MUSIC">MUSIC</option>
-                            <option value="ENTERTAINMENT">ENTERTAINMENT</option>
-                            <option value="WEDDINGS">WEDDINGS</option>
-                            <option value="POETRY">POETRY</option>
-                        </select>
-                    </div>
-                    <div class="space-y-1">
-                        <label class="block text-xs font-semibold text-gray-300">Cover / Artwork URL (Optional)</label>
-                        <input type="url" id="uploadThumbnail" placeholder="https://images.unsplash.com/..." class="w-full bg-gray-950 text-gray-200 px-3.5 py-2.5 rounded-xl border border-gray-800 focus:outline-none focus:border-indigo-500">
-                    </div>
-                </div>
+            <!-- Log Stream Box -->
+            <div id="exportLogBox" class="h-28 bg-black/60 rounded-xl p-3 border border-studio-700 font-mono text-[11px] text-slate-400 overflow-y-auto space-y-1 leading-relaxed">
+            </div>
 
-                <div class="space-y-1">
-                    <label class="block text-xs font-semibold text-gray-300">Track Description</label>
-                    <textarea id="uploadDescription" rows="3" placeholder="Tell listeners about this track..." class="w-full bg-gray-950 text-gray-200 px-3.5 py-2.5 rounded-xl border border-gray-800 focus:outline-none focus:border-indigo-500 resize-none"></textarea>
-                </div>
-
-                <div class="pt-2 flex justify-end gap-3">
-                    <button type="button" onclick="closeUploadModal()" class="px-5 py-2.5 rounded-xl text-gray-400 hover:text-white font-medium hover:bg-gray-800 transition-colors">Cancel</button>
-                    <button type="submit" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold shadow-lg shadow-indigo-600/30 transition-all">Publish Material</button>
-                </div>
-            </form>
+            <div class="pt-2 flex items-center space-x-3">
+                <button id="btnCancelExport" class="px-4 py-2 text-xs font-semibold rounded-xl bg-studio-700 hover:bg-studio-600 text-slate-300 transition-all w-1/3">
+                    Cancel
+                </button>
+                <button id="btnDownloadOutput" disabled class="flex-1 py-2 text-xs font-semibold rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white shadow-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed">
+                    <i class="fa-solid fa-download mr-1.5"></i> <span id="btnDownloadText">Processing Media...</span>
+                </button>
+            </div>
         </div>
     </div>
 
-    <!-- Notification Toast -->
-    <div id="toastNotification" class="fixed bottom-5 right-5 z-50 hidden bg-gray-900 border border-indigo-500/40 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 transition-all transform translate-y-4">
-        <i id="toastIcon" class="fa-solid fa-circle-check text-indigo-400 text-lg"></i>
-        <span id="toastMessage" class="text-xs font-medium">Action completed!</span>
+    <!-- Onboarding Guide -->
+    <div id="onboardingOverlay" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300 flex items-center justify-center p-4">
+        <div class="bg-studio-800 border-2 border-indigo-500 rounded-2xl p-6 max-w-lg w-full shadow-2xl space-y-4 relative overflow-hidden text-slate-100">
+            <div class="flex items-center justify-between border-b border-studio-700 pb-3">
+                <div class="flex items-center space-x-2">
+                    <span id="tourStepBadge" class="bg-indigo-600 text-white font-mono font-bold text-xs px-2.5 py-1 rounded-full">STEP 1 OF 4</span>
+                    <h3 id="tourTitle" class="font-bold text-sm tracking-wide text-white">Upload or Select Track</h3>
+                </div>
+                <button id="btnCloseTour" class="text-slate-400 hover:text-white transition-colors">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <div class="space-y-2">
+                <p id="tourDescription" class="text-xs text-slate-300 leading-relaxed">
+                    Begin by uploading your video track (MP4, MOV, WEBM) via 'Upload Video', or click 'Demo Video' to test our animated synthwave track immediately.
+                </p>
+                <div id="tourHighlightBox" class="p-3 bg-studio-900/80 rounded-xl border border-indigo-500/30 text-[11px] font-mono text-indigo-300 flex items-center space-x-2">
+                    <i id="tourIcon" class="fa-solid fa-cloud-arrow-up text-indigo-400 text-base"></i>
+                    <span id="tourActionHint">Tip: Drag and drop video files directly onto the viewport canvas anytime.</span>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-2">
+                <button id="btnPrevTour" class="px-3 py-1.5 rounded-lg bg-studio-700 hover:bg-studio-600 text-xs text-slate-300 font-medium transition-all disabled:opacity-40">
+                    <i class="fa-solid fa-arrow-left mr-1"></i> Previous
+                </button>
+                <div class="flex space-x-1.5" id="tourDots">
+                    <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-studio-600"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-studio-600"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-studio-600"></span>
+                </div>
+                <button id="btnNextTour" class="px-4 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs text-white font-semibold transition-all shadow-md shadow-indigo-600/30 flex items-center">
+                    <span>Next Step</span> <i class="fa-solid fa-arrow-right ml-1.5"></i>
+                </button>
+            </div>
+        </div>
     </div>
 
+    <!-- HIGH-PERFORMANCE WEBGL ENGINE ARCHITECTURE -->
     <script>
-        const SAMPLE_VIDEOS = [
-            {
-                id: 'vid-1',
-                type: 'video',
-                title: 'Neon Nights & Cyber Rhythm',
-                artist: 'K3VIN & The Synthetics',
-                genre: 'MUSIC',
-                views: 240500,
-                releaseDate: '2026-08-14',
-                thumbnail: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&auto=format&fit=crop&q=80',
-                mediaUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-                description: 'Experience an electrifying visual journey through neon-drenched futuristic landscapes coupled with high-tempo synthwave bass lines.',
-                isSaved: false,
-                isFeatured: true
-            },
-            {
-                id: 'audio-1',
-                type: 'audio',
-                title: 'Acoustic Sunset Melody',
-                artist: 'Serenade Acoustic',
-                genre: 'MUSIC',
-                views: 94200,
-                releaseDate: '2026-09-10',
-                thumbnail: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&auto=format&fit=crop&q=80',
-                mediaUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
-                description: 'Relaxing unplugged acoustic guitar melody crafted for peaceful sunset chillouts and study sessions.',
-                isSaved: true,
-                isFeatured: true
-            },
-            {
-                id: 'vid-2',
-                type: 'video',
-                title: 'Afro-Pulse Vibration',
-                artist: 'Burna Kings & Amara',
-                genre: 'ENTERTAINMENT',
-                views: 512000,
-                releaseDate: '2026-09-01',
-                thumbnail: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&auto=format&fit=crop&q=80',
-                mediaUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
-                description: 'Soulful percussion meets smooth summer vibes in this energetic tropical rhythm shot live in Lagos.',
-                isSaved: true,
-                isFeatured: false
-            },
-            {
-                id: 'vid-3',
-                type: 'video',
-                title: 'Urban Underground Cypher',
-                artist: 'MC Eclipse ft. Ghost Flow',
-                genre: 'POETRY',
-                views: 189000,
-                releaseDate: '2026-07-22',
-                thumbnail: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&auto=format&fit=crop&q=80',
-                mediaUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
-                description: 'Raw lyricism over booming 808s recorded live in the heart of downtown Brooklyn.',
-                isSaved: false,
-                isFeatured: false
-            }
-        ];
+        // --- Core Audio/Video Application State ---
+        const rawVideo = document.getElementById('rawVideo');
+        const outputCanvas = document.getElementById('outputCanvas');
+        const rawCanvas = document.getElementById('rawCanvas');
+        const rawCtx = rawCanvas.getContext('2d', { willReadFrequently: true });
 
-        let videos = [];
-        let activeCategory = 'MUSIC';
-        let searchQuery = '';
-        let currentPlayingVideoId = null;
-        let selectedUploadedFile = null;
-        let isAdmin = false; // Admin Role Flag
+        // Interface UI references
+        const seekBar = document.getElementById('seekBar');
+        const seekBarProgress = document.getElementById('seekBarProgress');
+        const txtCurrentTime = document.getElementById('txtCurrentTime');
+        const txtDuration = document.getElementById('txtDuration');
+        const btnPlayPause = document.getElementById('btnPlayPause');
+        const icoPlayPause = document.getElementById('icoPlayPause');
+        const btnMute = document.getElementById('btnMute');
+        const icoMute = document.getElementById('icoMute');
+        const rngVolume = document.getElementById('rngVolume');
 
-        // Carousel variables
-        let featuredIndex = 0;
-        let heroCarouselInterval = null;
+        // Layout Comparison elements
+        const sliderHandle = document.getElementById('sliderHandle');
+        const comparisonClipContainer = document.getElementById('comparisonClipContainer');
+        const txtSplitPercent = document.getElementById('txtSplitPercent');
+        const canvasContainer = document.getElementById('canvasContainer');
+        const watermarkBox = document.getElementById('watermarkBox');
+        const boxResizer = document.getElementById('boxResizer');
 
-        window.addEventListener('DOMContentLoaded', () => {
-            loadVideosFromStorage();
-            renderFeaturedHero();
-            startHeroCarousel();
-            renderFeed();
-            renderTrendingSidebar();
-            updateSavedBadgeCount();
-            setupMediaListeners();
-            checkDeepLinkHash();
-            updateRoleUI();
-        });
+        // Control Panel Elements
+        const chkWatermark = document.getElementById('chkWatermark');
+        const rngWatermarkBlur = document.getElementById('rngWatermarkBlur');
+        const txtWatermarkBlur = document.getElementById('txtWatermarkBlur');
+        const btnToggleMaskGuide = document.getElementById('btnToggleMaskGuide');
 
-        window.addEventListener('hashchange', checkDeepLinkHash);
+        const chkDenoise = document.getElementById('chkDenoise');
+        const rngDenoise = document.getElementById('rngDenoise');
+        const txtDenoiseVal = document.getElementById('txtDenoiseVal');
+        const rngSharpen = document.getElementById('rngSharpen');
+        const txtSharpenVal = document.getElementById('txtSharpenVal');
 
-        function toggleRoleMode() {
-            isAdmin = !isAdmin;
-            updateRoleUI();
-            renderFeed();
-            if (currentPlayingVideoId) {
-                const video = videos.find(v => v.id === currentPlayingVideoId);
-                if (video) updateModalInteractionUI(video);
-            }
-            showToast(isAdmin ? 'Switched to Admin Mode' : 'Switched to Public User View');
-        }
+        const chkColorEnhance = document.getElementById('chkColorEnhance');
+        const rngColor = document.getElementById('rngColor');
+        const txtColorVal = document.getElementById('txtColorVal');
+        const rngContrast = document.getElementById('rngContrast');
+        const txtContrastVal = document.getElementById('txtContrastVal');
 
-        function updateRoleUI() {
-            const roleBtn = document.getElementById('roleToggleBtn');
-            const roleIcon = document.getElementById('roleIcon');
-            const roleText = document.getElementById('roleText');
-            const uploadBtn = document.getElementById('uploadTrackBtn');
+        const chkVisualizer = document.getElementById('chkVisualizer');
+        const selVisStyle = document.getElementById('selVisStyle');
+        const rngVisOpacity = document.getElementById('rngVisOpacity');
+        const txtVisOpacity = document.getElementById('txtVisOpacity');
 
-            if (isAdmin) {
-                roleBtn.className = "flex items-center gap-2 bg-pink-600 text-white text-xs font-bold px-3.5 py-2 rounded-full shadow-md transition-all";
-                roleIcon.className = "fa-solid fa-user-shield text-white";
-                roleText.textContent = "Role: Administrator";
-                uploadBtn.classList.remove('hidden');
-            } else {
-                roleBtn.className = "flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs font-semibold px-3.5 py-2 rounded-full border border-gray-700 transition-all";
-                roleIcon.className = "fa-solid fa-user text-indigo-400";
-                roleText.textContent = "Role: Public User";
-                uploadBtn.classList.add('hidden');
-            }
-        }
+        let currentScaleFactor = 1.0;
+        let activeObjectURL = null;
 
-        function checkDeepLinkHash() {
-            const hash = window.location.hash;
-            if (hash.startsWith('#play=')) {
-                const vidId = hash.replace('#play=', '');
-                openPlayerModal(vidId);
-            }
-        }
+        // WebAudio API Architecture
+        let audioCtx, analyser, audioSource, audioDestination;
+        let audioInitialized = false;
 
-        function loadVideosFromStorage() {
-            try {
-                const stored = localStorage.getItem('beatvault_videos');
-                videos = stored ? JSON.parse(stored) : SAMPLE_VIDEOS;
-            } catch (e) {
-                videos = SAMPLE_VIDEOS;
-            }
-        }
-
-        function saveVideosToStorage() {
-            try {
-                localStorage.setItem('beatvault_videos', JSON.stringify(videos));
-            } catch (e) {
-                console.warn('LocalStorage limit reached or disabled.');
-            }
-        }
-
-        function toggleFeaturedVideo(videoId, e) {
-            if (e) e.stopPropagation();
-            if (!isAdmin) {
-                showToast('Only administrators can manage featured tracks!');
+        function initAudioGraph() {
+            if (audioInitialized) {
+                if (audioCtx && audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
                 return;
             }
-
-            const targetVideo = videos.find(v => v.id === videoId);
-            if (!targetVideo) return;
-
-            targetVideo.isFeatured = !targetVideo.isFeatured;
-            
-            if (!videos.some(v => v.isFeatured)) {
-                targetVideo.isFeatured = true;
-                showToast('At least one track must remain featured!');
-                return;
-            }
-
-            saveVideosToStorage();
-            featuredIndex = 0;
-            renderFeaturedHero();
-            renderFeed();
-
-            if (currentPlayingVideoId === videoId) {
-                updateModalInteractionUI(targetVideo);
-            }
-
-            showToast(`"${targetVideo.title}" ${targetVideo.isFeatured ? 'added to Featured' : 'removed from Featured'}`);
-        }
-
-        function deleteTrack(videoId) {
-            if (!isAdmin) return;
-            if (confirm('Are you sure you want to delete this track from the platform?')) {
-                videos = videos.filter(v => v.id !== videoId);
-                saveVideosToStorage();
-                closePlayerModal();
-                renderFeaturedHero();
-                renderFeed();
-                renderTrendingSidebar();
-                showToast('Track successfully removed');
-            }
-        }
-
-        function getFeaturedVideos() {
-            const featured = videos.filter(v => v.isFeatured);
-            return featured.length > 0 ? featured : [videos[0]];
-        }
-
-        function renderFeaturedHero() {
-            const featuredList = getFeaturedVideos();
-            if (featuredIndex >= featuredList.length) featuredIndex = 0;
-            if (featuredIndex < 0) featuredIndex = featuredList.length - 1;
-
-            const featured = featuredList[featuredIndex];
-
-            document.getElementById('heroImage').src = featured.thumbnail;
-            document.getElementById('heroTitle').textContent = featured.title;
-            document.getElementById('heroArtist').querySelector('span').textContent = featured.artist;
-            document.getElementById('heroGenre').textContent = featured.genre;
-            document.getElementById('heroTypeTag').textContent = featured.type === 'audio' ? 'Audio Track' : 'Video';
-            document.getElementById('heroDescription').textContent = featured.description;
-            
-            document.getElementById('heroPlayBtn').onclick = () => openPlayerModal(featured.id);
-            document.getElementById('heroDownloadBtn').onclick = () => quickDownload(featured.id);
-
-            const indicatorsContainer = document.getElementById('heroIndicators');
-            indicatorsContainer.innerHTML = '';
-            featuredList.forEach((_, idx) => {
-                const dot = document.createElement('button');
-                dot.className = `w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full transition-all ${idx === featuredIndex ? 'bg-pink-500 w-5 sm:w-6' : 'bg-gray-600 hover:bg-gray-400'}`;
-                dot.onclick = () => {
-                    featuredIndex = idx;
-                    renderFeaturedHero();
-                };
-                indicatorsContainer.appendChild(dot);
-            });
-        }
-
-        function nextFeaturedSlide() {
-            const featuredList = getFeaturedVideos();
-            featuredIndex = (featuredIndex + 1) % featuredList.length;
-            renderFeaturedHero();
-        }
-
-        function prevFeaturedSlide() {
-            const featuredList = getFeaturedVideos();
-            featuredIndex = (featuredIndex - 1 + featuredList.length) % featuredList.length;
-            renderFeaturedHero();
-        }
-
-        function startHeroCarousel() {
-            stopHeroCarousel();
-            heroCarouselInterval = setInterval(() => {
-                nextFeaturedSlide();
-            }, 2000);
-        }
-
-        function pauseHeroCarousel() {
-            stopHeroCarousel();
-        }
-
-        function stopHeroCarousel() {
-            if (heroCarouselInterval) {
-                clearInterval(heroCarouselInterval);
-                heroCarouselInterval = null;
-            }
-        }
-
-        function renderFeed() {
-            const container = document.getElementById('videoGrid');
-            const emptyState = document.getElementById('emptyState');
-            container.innerHTML = '';
-
-            const filtered = videos.filter(v => {
-                const matchesGenre = activeCategory === 'Saved' ? v.isSaved : v.genre.toLowerCase() === activeCategory.toLowerCase();
-                const matchesSearch = v.title.toLowerCase().includes(searchQuery) || v.artist.toLowerCase().includes(searchQuery) || v.genre.toLowerCase().includes(searchQuery);
-                return matchesGenre && matchesSearch;
-            });
-
-            document.getElementById('videoCountBadge').textContent = `${filtered.length} Track${filtered.length !== 1 ? 's' : ''}`;
-
-            if (filtered.length === 0) {
-                emptyState.classList.remove('hidden');
-                emptyState.classList.add('flex');
-            } else {
-                emptyState.classList.add('hidden');
-                emptyState.classList.remove('flex');
-                filtered.forEach(video => container.appendChild(createVideoCard(video)));
-            }
-        }
-
-        function createVideoCard(video) {
-            const card = document.createElement('div');
-            card.className = "group bg-brand-cardBg rounded-2xl overflow-hidden border border-gray-800/80 hover:border-indigo-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/10 flex flex-col justify-between";
-
-            const isAudio = video.type === 'audio';
-
-            const featuredAdminBadge = isAdmin ? `
-                <button onclick="toggleFeaturedVideo('${video.id}', event)" title="${video.isFeatured ? 'Remove from Featured' : 'Make Featured'}" class="absolute top-2 right-2 ${video.isFeatured ? 'bg-amber-500 text-slate-950' : 'bg-black/60 hover:bg-pink-600 text-white'} text-[10px] font-bold px-2 py-1 rounded-md transition-all flex items-center gap-1 shadow-md z-10">
-                    <i class="fa-solid fa-fire text-[10px]"></i> ${video.isFeatured ? 'Featured' : 'Make Featured'}
-                </button>
-            ` : (video.isFeatured ? `
-                <span class="absolute top-2 right-2 bg-amber-500/90 text-slate-950 text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1 shadow-md">
-                    <i class="fa-solid fa-fire text-[10px]"></i> Featured
-                </span>
-            ` : '');
-
-            card.innerHTML = `
-                <div>
-                    <div class="relative aspect-video bg-gray-950 overflow-hidden cursor-pointer" onclick="openPlayerModal('${video.id}')">
-                        <img src="${escapeHtml(video.thumbnail)}" alt="${escapeHtml(video.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800'">
-                        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                            <div class="w-12 h-12 rounded-full bg-indigo-600/90 text-white flex items-center justify-center transform scale-90 group-hover:scale-100 transition-all shadow-lg">
-                                <i class="fa-solid ${isAudio ? 'fa-music' : 'fa-play'} ml-0.5 text-lg"></i>
-                            </div>
-                        </div>
-                        <span class="absolute top-2 left-2 ${isAudio ? 'bg-pink-600' : 'bg-indigo-600'} text-white text-[10px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wide flex items-center gap-1 shadow-md">
-                            <i class="fa-solid ${isAudio ? 'fa-headphones' : 'fa-film'} text-[9px]"></i> ${isAudio ? 'AUDIO' : 'VIDEO'}
-                        </span>
-                        
-                        ${featuredAdminBadge}
-
-                        <span class="absolute bottom-2 right-2 bg-black/80 backdrop-blur-md text-[10px] text-gray-200 px-2 py-0.5 rounded-md font-mono">${escapeHtml(video.genre)}</span>
-                    </div>
-                    <div class="p-4 space-y-2">
-                        <h3 onclick="openPlayerModal('${video.id}')" class="font-bold text-gray-100 line-clamp-1 hover:text-indigo-400 cursor-pointer transition-colors text-base">${escapeHtml(video.title)}</h3>
-                        <p class="text-xs font-medium text-indigo-300 flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-[10px]"></i> ${escapeHtml(video.artist)}</p>
-                        <div class="flex items-center gap-3 text-[11px] text-gray-400 font-medium">
-                            <span><i class="fa-solid fa-eye text-gray-500 mr-1"></i>${formatNumber(video.views)} views</span>
-                            <span>&bull;</span>
-                            <span>${timeAgo(video.releaseDate)}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="px-4 py-2.5 bg-gray-950/40 border-t border-gray-800/60 flex items-center justify-between">
-                    <button onclick="toggleBookmark('${video.id}', event)" class="text-gray-400 hover:text-amber-400 text-xs flex items-center gap-1 transition-colors">
-                        <i class="${video.isSaved ? 'fa-solid text-amber-400' : 'fa-regular'} fa-bookmark"></i>
-                        <span>${video.isSaved ? 'Saved' : 'Save'}</span>
-                    </button>
-                    <button onclick="quickDownload('${video.id}', event)" title="Download Track" class="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold shadow-md transition-all">
-                        <i class="fa-solid fa-download"></i>
-                        <span>Download</span>
-                    </button>
-                </div>
-            `;
-            return card;
-        }
-
-        function renderTrendingSidebar() {
-            const container = document.getElementById('trendingList');
-            container.innerHTML = '';
-            const sorted = [...videos].sort((a, b) => b.views - a.views).slice(0, 4);
-
-            sorted.forEach((video, idx) => {
-                const item = document.createElement('div');
-                item.className = "flex items-center gap-3 p-2 rounded-xl hover:bg-gray-800/60 cursor-pointer transition-colors group";
-                item.onclick = () => openPlayerModal(video.id);
-                item.innerHTML = `
-                    <span class="text-lg font-black text-gray-600 group-hover:text-pink-500 w-4 text-center">${idx + 1}</span>
-                    <img src="${escapeHtml(video.thumbnail)}" class="w-12 h-12 rounded-lg object-cover bg-gray-900" alt="thumb">
-                    <div class="flex-1 min-w-0">
-                        <h4 class="text-xs font-bold text-gray-200 truncate group-hover:text-indigo-400">${escapeHtml(video.title)}</h4>
-                        <p class="text-[11px] text-gray-400 truncate">${escapeHtml(video.artist)}</p>
-                        <div class="flex items-center gap-2">
-                            <span class="text-[9px] ${video.type === 'audio' ? 'text-pink-400 font-bold' : 'text-indigo-400 font-semibold'} uppercase">${video.type || 'video'}</span>
-                            <span class="text-[10px] text-gray-500 font-mono">${formatNumber(video.views)} views</span>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(item);
-            });
-        }
-
-        function setupMediaListeners() {
-            const videoPlayer = document.getElementById('modalVideoPlayer');
-            const audioPlayer = document.getElementById('modalAudioPlayer');
-            const spinner = document.getElementById('mediaSpinner');
-            const errorOverlay = document.getElementById('mediaErrorOverlay');
-
-            [videoPlayer, audioPlayer].forEach(player => {
-                player.addEventListener('waiting', () => spinner.classList.remove('hidden'));
-                player.addEventListener('playing', () => {
-                    spinner.classList.add('hidden');
-                    errorOverlay.classList.add('hidden');
-                });
-                player.addEventListener('error', () => {
-                    spinner.classList.add('hidden');
-                    errorOverlay.classList.remove('hidden');
-                });
-            });
-        }
-
-        function reloadMediaPlayer() {
-            document.getElementById('mediaErrorOverlay').classList.add('hidden');
-            const videoPlayer = document.getElementById('modalVideoPlayer');
-            const audioPlayer = document.getElementById('modalAudioPlayer');
-            
-            if (!videoPlayer.classList.contains('hidden')) {
-                videoPlayer.load();
-                videoPlayer.play().catch(() => {});
-            } else {
-                audioPlayer.load();
-                audioPlayer.play().catch(() => {});
-            }
-        }
-
-        function openPlayerModal(videoId) {
-            const video = videos.find(v => v.id === videoId);
-            if (!video) return;
-
-            currentPlayingVideoId = videoId;
-            video.views += 1;
-            saveVideosToStorage();
-            renderTrendingSidebar();
-
-            window.location.hash = `play=${videoId}`;
-
-            document.getElementById('modalTitle').textContent = video.title;
-            document.getElementById('modalArtist').querySelector('span').textContent = video.artist;
-            document.getElementById('modalViews').textContent = `${formatNumber(video.views)} views`;
-            document.getElementById('modalGenreTag').textContent = video.genre;
-            document.getElementById('modalMediaTypeBadge').textContent = video.type === 'audio' ? 'AUDIO' : 'VIDEO';
-            document.getElementById('modalReleaseDate').textContent = video.releaseDate;
-            document.getElementById('modalDescription').textContent = video.description || 'No description available.';
-            
-            const videoPlayer = document.getElementById('modalVideoPlayer');
-            const audioContainer = document.getElementById('modalAudioContainer');
-            const audioPlayer = document.getElementById('modalAudioPlayer');
-
-            if (video.type === 'audio') {
-                videoPlayer.pause();
-                videoPlayer.classList.add('hidden');
-                audioContainer.classList.remove('hidden');
+            try {
+                const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioCtxClass();
+                analyser = audioCtx.createAnalyser();
+                analyser.fftSize = 128;
                 
-                document.getElementById('audioPoster').src = video.thumbnail;
-                document.getElementById('audioCoverImage').src = video.thumbnail;
-                document.getElementById('audioSource').src = video.mediaUrl;
-                audioPlayer.load();
-                audioPlayer.play().catch(() => {});
-            } else {
-                audioPlayer.pause();
-                audioContainer.classList.add('hidden');
-                videoPlayer.classList.remove('hidden');
+                // Safe single initialization for MediaElementSource
+                audioSource = audioCtx.createMediaElementSource(rawVideo);
+                audioDestination = audioCtx.createMediaStreamDestination();
 
-                document.getElementById('videoSource').src = video.mediaUrl;
-                videoPlayer.poster = video.thumbnail;
-                videoPlayer.load();
-                videoPlayer.play().catch(() => {});
+                audioSource.connect(analyser);
+                analyser.connect(audioCtx.destination);
+                analyser.connect(audioDestination);
+
+                audioInitialized = true;
+            } catch (err) {
+                console.warn('Audio Context awaiting user activation or node already connected.', err);
+            }
+        }
+
+        // --- WEBGL HIGH-PERFORMANCE SHADER PIPELINE ---
+        let gl = outputCanvas.getContext('webgl2', { preserveDrawingBuffer: true, alpha: false });
+        let glProgram = null;
+        let glTextures = {};
+        let glLocations = {};
+
+        const vertexShaderSource = `#version 300 es
+            in vec2 a_position;
+            in vec2 a_texCoord;
+            out vec2 v_texCoord;
+            void main() {
+                gl_Position = vec4(a_position, 0.0, 1.0);
+                v_texCoord = vec2(a_texCoord.x, 1.0 - a_texCoord.y);
+            }
+        `;
+
+        const fragmentShaderSource = `#version 300 es
+            precision highp float;
+            in vec2 v_texCoord;
+            out vec4 outColor;
+
+            uniform sampler2D u_image;
+            uniform vec2 u_resolution;
+
+            // Effect Switches
+            uniform bool u_enableWatermark;
+            uniform vec4 u_watermarkBox; // x, y, width, height in normalised (0..1)
+            uniform float u_blurRadius;
+
+            uniform bool u_enableDenoise;
+            uniform float u_denoiseAmount;
+            uniform float u_sharpenAmount;
+
+            uniform bool u_enableColor;
+            uniform float u_saturation;
+            uniform float u_contrast;
+
+            vec4 applyBlur(vec2 uv, float radius) {
+                vec2 texel = 1.0 / u_resolution;
+                vec4 color = vec4(0.0);
+                float totalWeight = 0.0;
+                
+                for (float x = -3.0; x <= 3.0; x += 1.0) {
+                    for (float y = -3.0; y <= 3.0; y += 1.0) {
+                        float weight = 1.0 - (length(vec2(x, y)) / 4.24);
+                        if (weight > 0.0) {
+                            vec2 offset = vec2(x, y) * texel * (radius / 3.0);
+                            color += texture(u_image, uv + offset) * weight;
+                            totalWeight += weight;
+                        }
+                    }
+                }
+                return color / totalWeight;
             }
 
-            updateModalInteractionUI(video);
-            document.getElementById('playerModal').classList.remove('hidden');
-        }
+            void main() {
+                vec2 uv = v_texCoord;
+                vec4 color = texture(u_image, uv);
 
-        function closePlayerModal() {
-            const videoPlayer = document.getElementById('modalVideoPlayer');
-            const audioPlayer = document.getElementById('modalAudioPlayer');
-            videoPlayer.pause();
-            audioPlayer.pause();
-
-            document.getElementById('playerModal').classList.add('hidden');
-            currentPlayingVideoId = null;
-            history.replaceState(null, null, ' ');
-            document.getElementById('downloadMenu').classList.add('hidden');
-        }
-
-        function updateModalInteractionUI(video) {
-            const bookmarkBtn = document.getElementById('modalBookmarkBtn');
-            const featureBtn = document.getElementById('modalFeatureBtn');
-            const featureBtnText = document.getElementById('modalFeatureBtnText');
-            const deleteBtn = document.getElementById('modalDeleteBtn');
-
-            // Render Admin Only Controls
-            if (isAdmin) {
-                featureBtn.classList.remove('hidden');
-                deleteBtn.classList.remove('hidden');
-
-                if (video.isFeatured) {
-                    featureBtn.className = "flex items-center gap-2 bg-amber-500 text-slate-950 border border-amber-400 px-4 py-2 rounded-xl text-sm font-bold transition-all";
-                    featureBtnText.textContent = "Featured";
-                } else {
-                    featureBtn.className = "flex items-center gap-2 bg-pink-600/20 border border-pink-500/40 text-pink-400 hover:bg-pink-600 hover:text-white px-4 py-2 rounded-xl text-sm font-medium transition-all";
-                    featureBtnText.textContent = "Feature Premiere";
+                // 1. Watermark Spatial Inpaint Filter
+                if (u_enableWatermark) {
+                    if (uv.x >= u_watermarkBox.x && uv.x <= u_watermarkBox.x + u_watermarkBox.z &&
+                        uv.y >= u_watermarkBox.y && uv.y <= u_watermarkBox.y + u_watermarkBox.w) {
+                        color = applyBlur(uv, u_blurRadius);
+                    }
                 }
 
-                featureBtn.onclick = () => toggleFeaturedVideo(video.id);
-                deleteBtn.onclick = () => deleteTrack(video.id);
-            } else {
-                featureBtn.classList.add('hidden');
-                deleteBtn.classList.add('hidden');
+                // 2. Spatial Denoise & Unsharp Masking
+                if (u_enableDenoise) {
+                    vec2 texel = 1.0 / u_resolution;
+                    vec4 neighborAvg = (
+                        texture(u_image, uv + vec2(-texel.x, 0.0)) +
+                        texture(u_image, uv + vec2(texel.x, 0.0)) +
+                        texture(u_image, uv + vec2(0.0, -texel.y)) +
+                        texture(u_image, uv + vec2(0.0, texel.y))
+                    ) * 0.25;
+
+                    // Smoothing grain
+                    color = mix(color, neighborAvg, u_denoiseAmount * 0.5);
+
+                    // Unsharp Mask Edge Enhancement
+                    vec4 sharp = color + (color - neighborAvg) * u_sharpenAmount * 2.0;
+                    color = clamp(sharp, 0.0, 1.0);
+                }
+
+                // 3. HDR Color Calibration
+                if (u_enableColor) {
+                    // Saturation
+                    float luminance = dot(color.rgb, vec3(0.2126, 0.7152, 0.0722));
+                    color.rgb = mix(vec3(luminance), color.rgb, u_saturation);
+
+                    // Contrast Adjustment
+                    color.rgb = (color.rgb - 0.5) * u_contrast + 0.5;
+                }
+
+                outColor = clamp(color, 0.0, 1.0);
             }
+        `;
 
-            if (video.isSaved) {
-                bookmarkBtn.className = "flex items-center gap-2 bg-amber-500/20 border border-amber-500/40 text-amber-400 px-4 py-2 rounded-xl text-sm font-medium transition-all";
-                bookmarkBtn.querySelector('i').className = "fa-solid fa-bookmark text-amber-400";
-            } else {
-                bookmarkBtn.className = "flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-gray-200 px-4 py-2 rounded-xl text-sm font-medium border border-gray-700 transition-all";
-                bookmarkBtn.querySelector('i').className = "fa-regular fa-bookmark text-amber-400";
+        function createShader(gl, type, source) {
+            const shader = gl.createShader(type);
+            gl.shaderSource(shader, source);
+            gl.compileShader(shader);
+            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                console.error("Shader Compilation Error:", gl.getShaderInfoLog(shader));
+                gl.deleteShader(shader);
+                return null;
             }
-
-            bookmarkBtn.onclick = () => {
-                toggleBookmark(video.id);
-                updateModalInteractionUI(video);
-            };
+            return shader;
         }
 
-        function toggleBookmark(videoId, e) {
-            if (e) e.stopPropagation();
-            const video = videos.find(v => v.id === videoId);
-            if (!video) return;
-
-            video.isSaved = !video.isSaved;
-            saveVideosToStorage();
-            renderFeed();
-            updateSavedBadgeCount();
-            showToast(video.isSaved ? 'Saved to Library!' : 'Removed from Library');
-        }
-
-        function updateSavedBadgeCount() {
-            const savedCount = videos.filter(v => v.isSaved).length;
-            const badge = document.getElementById('savedBadge');
-            badge.textContent = savedCount;
-            badge.classList.toggle('hidden', savedCount === 0);
-        }
-
-        function toggleDownloadDropdown(e) {
-            if (e) e.stopPropagation();
-            document.getElementById('downloadMenu').classList.toggle('hidden');
-        }
-
-        document.addEventListener('click', () => {
-            const menu = document.getElementById('downloadMenu');
-            if (menu) menu.classList.add('hidden');
-        });
-
-        function quickDownload(videoId, e) {
-            if (e) e.stopPropagation();
-            const video = videos.find(v => v.id === videoId);
-            if (!video) return;
-            const ext = video.type === 'audio' ? 'mp3' : 'mp4';
-            executeFileDownload(video.mediaUrl, `${slugify(video.title)}.${ext}`);
-        }
-
-        function triggerDownload(quality) {
-            if (!currentPlayingVideoId) return;
-            const video = videos.find(v => v.id === currentPlayingVideoId);
-            if (!video) return;
-
-            const ext = (quality === 'mp3' || video.type === 'audio') ? 'mp3' : 'mp4';
-            const filename = `${slugify(video.title)}.${ext}`;
-            executeFileDownload(video.mediaUrl, filename);
-            document.getElementById('downloadMenu').classList.add('hidden');
-        }
-
-        function executeFileDownload(url, filename) {
-            showToast(`Downloading ${filename}...`);
-            fetch(url)
-                .then(res => res.blob())
-                .then(blob => {
-                    const blobUrl = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = blobUrl;
-                    a.download = filename;
-                    a.click();
-                    URL.revokeObjectURL(blobUrl);
-                    showToast('Download complete!');
-                })
-                .catch(() => {
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.target = '_blank';
-                    a.download = filename;
-                    a.click();
-                });
-        }
-
-        function shareCurrentVideo() {
-            if (!currentPlayingVideoId) return;
-            const dummyUrl = window.location.origin + window.location.pathname + `#play=${currentPlayingVideoId}`;
-            navigator.clipboard.writeText(dummyUrl).then(() => {
-                showToast('Track link copied to clipboard!');
-            }).catch(() => {
-                showToast('Share link generated!');
-            });
-        }
-
-        function openUploadModal() {
-            if (!isAdmin) {
-                showToast('Upload access is restricted to administrators.');
+        function initWebGL() {
+            if (!gl) {
+                document.getElementById('gpuModeText').textContent = "Canvas2D Fallback";
+                document.getElementById('gpuStatusDot').className = "w-2 h-2 rounded-full bg-amber-400";
                 return;
             }
-            document.getElementById('uploadModal').classList.remove('hidden');
+
+            const vs = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
+            const fs = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
+            glProgram = gl.createProgram();
+            gl.attachShader(glProgram, vs);
+            gl.attachShader(glProgram, fs);
+            gl.linkProgram(glProgram);
+
+            if (!gl.getProgramParameter(glProgram, gl.LINK_STATUS)) {
+                console.error("Program Link Error:", gl.getProgramInfoLog(glProgram));
+                return;
+            }
+
+            gl.useProgram(glProgram);
+
+            // Buffer setup
+            const positionBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+                -1, -1,  1, -1, -1,  1,
+                -1,  1,  1, -1,  1,  1
+            ]), gl.STATIC_DRAW);
+
+            const posLoc = gl.getAttribLocation(glProgram, "a_position");
+            gl.enableVertexAttribArray(posLoc);
+            gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+            const texCoordBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, texCoordBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+                0, 0,  1, 0,  0, 1,
+                0, 1,  1, 0,  1, 1
+            ]), gl.STATIC_DRAW);
+
+            const texLoc = gl.getAttribLocation(glProgram, "a_texCoord");
+            gl.enableVertexAttribArray(texLoc);
+            gl.vertexAttribPointer(texLoc, 2, gl.FLOAT, false, 0, 0);
+
+            // Textures
+            glTextures.video = gl.createTexture();
+            gl.bindTexture(gl.TEXTURE_2D, glTextures.video);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+
+            // Uniform locations cache
+            glLocations.resolution = gl.getUniformLocation(glProgram, "u_resolution");
+            glLocations.enableWatermark = gl.getUniformLocation(glProgram, "u_enableWatermark");
+            glLocations.watermarkBox = gl.getUniformLocation(glProgram, "u_watermarkBox");
+            glLocations.blurRadius = gl.getUniformLocation(glProgram, "u_blurRadius");
+            glLocations.enableDenoise = gl.getUniformLocation(glProgram, "u_enableDenoise");
+            glLocations.denoiseAmount = gl.getUniformLocation(glProgram, "u_denoiseAmount");
+            glLocations.sharpenAmount = gl.getUniformLocation(glProgram, "u_sharpenAmount");
+            glLocations.enableColor = gl.getUniformLocation(glProgram, "u_enableColor");
+            glLocations.saturation = gl.getUniformLocation(glProgram, "u_saturation");
+            glLocations.contrast = gl.getUniformLocation(glProgram, "u_contrast");
         }
 
-        function closeUploadModal() {
-            document.getElementById('uploadModal').classList.add('hidden');
-            document.getElementById('uploadForm').reset();
-            selectedUploadedFile = null;
-            document.getElementById('dropZoneText').innerHTML = `
-                <p class="font-medium text-gray-200">Click to browse or drag & drop file</p>
-                <p class="text-xs text-gray-500">Audio (MP3, WAV, AAC) or Video (MP4, WebM, MOV)</p>
-            `;
+        initWebGL();
+
+        // --- Demo Engine Fallback Canvas ---
+        let isUsingDemoCanvas = false;
+        let demoAnimFrame = null;
+        let demoAudioOsc = null, demoAudioGain = null;
+        let demoCanvasSrc = document.createElement('canvas');
+        demoCanvasSrc.width = 1280; demoCanvasSrc.height = 720;
+        let demoCtx = demoCanvasSrc.getContext('2d');
+
+        function startDemoAudioSynth() {
+            if (!audioCtx) initAudioGraph();
+            if (!audioCtx) return;
+            try {
+                if (demoAudioOsc) demoAudioOsc.stop();
+                demoAudioOsc = audioCtx.createOscillator();
+                demoAudioGain = audioCtx.createGain();
+                
+                demoAudioOsc.type = 'sawtooth';
+                demoAudioOsc.frequency.setValueAtTime(110, audioCtx.currentTime);
+                demoAudioGain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+
+                demoAudioOsc.connect(demoAudioGain);
+                demoAudioGain.connect(analyser);
+                demoAudioGain.connect(audioCtx.destination);
+                demoAudioGain.connect(audioDestination);
+                demoAudioOsc.start();
+            } catch(e){}
         }
 
-        function handleFileSelect(e) {
+        function stopDemoAudioSynth() {
+            if (demoAudioOsc) {
+                try { demoAudioOsc.stop(); } catch(e){}
+                demoAudioOsc = null;
+            }
+        }
+
+        function drawDemoFrame(timestamp) {
+            if (!isUsingDemoCanvas) return;
+            const t = timestamp * 0.001;
+            const w = demoCanvasSrc.width, h = demoCanvasSrc.height;
+
+            let grad = demoCtx.createLinearGradient(0, 0, 0, h);
+            grad.addColorStop(0, '#0a0612'); grad.addColorStop(0.5, '#240a34'); grad.addColorStop(1, '#05020a');
+            demoCtx.fillStyle = grad; demoCtx.fillRect(0, 0, w, h);
+
+            let sunGrad = demoCtx.createLinearGradient(0, h * 0.2, 0, h * 0.6);
+            sunGrad.addColorStop(0, '#ff0077'); sunGrad.addColorStop(1, '#ffb700');
+            demoCtx.fillStyle = sunGrad; demoCtx.beginPath(); demoCtx.arc(w / 2, h * 0.45, 120, 0, Math.PI * 2); demoCtx.fill();
+
+            demoCtx.fillStyle = 'rgba(255,255,255,0.85)';
+            demoCtx.font = 'bold 26px Inter, sans-serif';
+            demoCtx.fillText('WATERMARK LOGO © 2026', w * 0.68, h * 0.18);
+
+            demoCtx.strokeStyle = '#00f0ff'; demoCtx.lineWidth = 4; demoCtx.beginPath();
+            for (let x = 0; x < w; x += 15) {
+                let y = h * 0.5 + Math.sin(x * 0.01 + t * 5) * 35 * Math.cos(t * 2);
+                if (x === 0) demoCtx.moveTo(x, y); else demoCtx.lineTo(x, y);
+            }
+            demoCtx.stroke();
+
+            demoCtx.strokeStyle = 'rgba(255, 0, 150, 0.35)'; demoCtx.lineWidth = 2;
+            for (let y = h * 0.55; y < h; y += 20) {
+                demoCtx.beginPath(); demoCtx.moveTo(0, y); demoCtx.lineTo(w, y); demoCtx.stroke();
+            }
+
+            demoAnimFrame = requestAnimationFrame(drawDemoFrame);
+        }
+
+        function loadSampleVideo() {
+            isUsingDemoCanvas = true;
+            rawVideo.pause();
+            if (activeObjectURL) {
+                URL.revokeObjectURL(activeObjectURL);
+                activeObjectURL = null;
+            }
+            rawVideo.src = "";
+            cancelAnimationFrame(demoAnimFrame);
+            requestAnimationFrame(drawDemoFrame);
+            updateCanvasDimensions(1280, 720);
+            txtDuration.textContent = "00:30";
+        }
+
+        // Upload custom video file with URL Revocation Handling
+        document.getElementById('videoFileInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
-            if (file) {
-                selectedUploadedFile = file;
-                const isAudio = file.type.startsWith('audio/');
-                document.getElementById('dropZoneText').innerHTML = `
-                    <p class="font-bold text-indigo-400"><i class="fa-solid ${isAudio ? 'fa-file-audio' : 'fa-file-video'} mr-1"></i> ${escapeHtml(file.name)}</p>
-                    <p class="text-xs text-gray-400">${(file.size / (1024 * 1024)).toFixed(2)} MB Selected (${isAudio ? 'Audio' : 'Video'})</p>
-                `;
-            }
-        }
+            if (!file) return;
 
-        function handleUploadSubmit(e) {
-            e.preventDefault();
-            if (!isAdmin) return;
+            stopDemoAudioSynth();
+            isUsingDemoCanvas = false;
+            cancelAnimationFrame(demoAnimFrame);
 
-            const title = document.getElementById('uploadTitle').value.trim();
-            const artist = document.getElementById('uploadArtist').value.trim();
-            const genre = document.getElementById('uploadGenre').value;
-            const customThumb = document.getElementById('uploadThumbnail').value.trim();
-            const description = document.getElementById('uploadDescription').value.trim();
-
-            let mediaType = 'video';
-            let mediaBlobUrl = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4';
+            if (activeObjectURL) URL.revokeObjectURL(activeObjectURL);
+            activeObjectURL = URL.createObjectURL(file);
             
-            if (selectedUploadedFile) {
-                mediaBlobUrl = URL.createObjectURL(selectedUploadedFile);
-                mediaType = selectedUploadedFile.type.startsWith('audio/') ? 'audio' : 'video';
+            rawVideo.src = activeObjectURL;
+            rawVideo.load();
+            rawVideo.play().then(() => {
+                icoPlayPause.className = "fa-solid fa-pause text-sm";
+                initAudioGraph();
+                if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+            }).catch(err => console.log('Autoplay handled:', err));
+        });
+
+        document.getElementById('btnLoadSample').addEventListener('click', loadSampleVideo);
+
+        function updateCanvasDimensions(vw, vh) {
+            const scaledW = Math.round(vw * currentScaleFactor);
+            const scaledH = Math.round(vh * currentScaleFactor);
+
+            outputCanvas.width = scaledW; outputCanvas.height = scaledH;
+            rawCanvas.width = scaledW; rawCanvas.height = scaledH;
+
+            if (gl) gl.viewport(0, 0, scaledW, scaledH);
+
+            const aspect = vw / vh;
+            document.getElementById('videoViewport').style.aspectRatio = aspect;
+        }
+
+        rawVideo.addEventListener('loadedmetadata', () => {
+            updateCanvasDimensions(rawVideo.videoWidth || 1280, rawVideo.videoHeight || 720);
+            txtDuration.textContent = formatTime(rawVideo.duration);
+        });
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return "00:00";
+            const m = Math.floor(seconds / 60);
+            const s = Math.floor(seconds % 60);
+            return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+        }
+
+        // --- MAIN RENDER LOOP (HARDWARE ACCELERATED SHADER EXECUTION) ---
+        function renderFrame() {
+            const width = outputCanvas.width, height = outputCanvas.height;
+            if (width === 0 || height === 0) return;
+
+            const sourceMedia = isUsingDemoCanvas ? demoCanvasSrc : rawVideo;
+
+            // Draw Raw Canvas Clip View
+            if (isUsingDemoCanvas || rawVideo.readyState >= 2) {
+                rawCtx.drawImage(sourceMedia, 0, 0, width, height);
             }
 
-            const defaultThumb = mediaType === 'audio' 
-                ? 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800' 
-                : 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800';
+            if (gl && glProgram) {
+                gl.useProgram(glProgram);
+                gl.bindTexture(gl.TEXTURE_2D, glTextures.video);
+                
+                if (isUsingDemoCanvas || rawVideo.readyState >= 2) {
+                    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, sourceMedia);
+                }
 
-            const newTrack = {
-                id: 'upload-' + Date.now(),
-                type: mediaType,
-                title, artist, genre,
-                views: 1,
-                releaseDate: new Date().toISOString().split('T')[0],
-                thumbnail: customThumb || defaultThumb,
-                mediaUrl: mediaBlobUrl,
-                description,
-                isSaved: false,
-                isFeatured: false
-            };
+                gl.uniform2f(glLocations.resolution, width, height);
 
-            videos.unshift(newTrack);
-            saveVideosToStorage();
-            renderFeed();
-            renderTrendingSidebar();
-            closeUploadModal();
-            showToast(`${mediaType === 'audio' ? 'Audio track' : 'Music video'} published successfully!`);
+                // Watermark Coordinates Normalized
+                if (chkWatermark.checked) {
+                    const rect = watermarkBox.getBoundingClientRect();
+                    const containerRect = document.getElementById('videoViewport').getBoundingClientRect();
+                    
+                    const normX = Math.max(0, (rect.left - containerRect.left) / containerRect.width);
+                    const normY = Math.max(0, 1.0 - ((rect.bottom - containerRect.top) / containerRect.height));
+                    const normW = rect.width / containerRect.width;
+                    const normH = rect.height / containerRect.height;
+
+                    gl.uniform1i(glLocations.enableWatermark, 1);
+                    gl.uniform4f(glLocations.watermarkBox, normX, normY, normW, normH);
+                    gl.uniform1f(glLocations.blurRadius, parseFloat(rngWatermarkBlur.value));
+                } else {
+                    gl.uniform1i(glLocations.enableWatermark, 0);
+                }
+
+                // Denoise & Sharpen
+                gl.uniform1i(glLocations.enableDenoise, chkDenoise.checked ? 1 : 0);
+                gl.uniform1f(glLocations.denoiseAmount, parseInt(rngDenoise.value) / 100.0);
+                gl.uniform1f(glLocations.sharpenAmount, parseInt(rngSharpen.value) / 100.0);
+
+                // Color Controls
+                gl.uniform1i(glLocations.enableColor, chkColorEnhance.checked ? 1 : 0);
+                gl.uniform1f(glLocations.saturation, (parseInt(rngColor.value) + 10) / 50.0);
+                gl.uniform1f(glLocations.contrast, (parseInt(rngContrast.value) + 10) / 50.0);
+
+                gl.drawArrays(gl.TRIANGLES, 0, 6);
+            }
+
+            // High Precision WebVideo Frame Callback loop
+            if ('requestVideoFrameCallback' in rawVideo && !isUsingDemoCanvas) {
+                rawVideo.requestVideoFrameCallback(renderFrame);
+            } else {
+                requestAnimationFrame(renderFrame);
+            }
         }
 
-        function filterCategory(category) {
-            activeCategory = category;
-            const buttons = document.querySelectorAll('.category-btn');
-            buttons.forEach(btn => {
-                const isActive = btn.textContent.trim().toLowerCase() === category.toLowerCase();
-                btn.className = isActive 
-                    ? "category-btn active px-5 py-2.5 rounded-full bg-indigo-600 text-white whitespace-nowrap transition-all shadow-md"
-                    : "category-btn px-5 py-2.5 rounded-full bg-gray-800/80 hover:bg-gray-700 text-gray-300 border border-gray-700/60 whitespace-nowrap transition-all";
+        requestAnimationFrame(renderFrame);
+        loadSampleVideo();
+
+        // Interactive UI Controls
+        let isDraggingSlider = false;
+        function updateSplitPosition(clientX) {
+            const rect = canvasContainer.getBoundingClientRect();
+            let x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+            const percent = (x / rect.width) * 100;
+            sliderHandle.style.left = `${percent}%`;
+            comparisonClipContainer.style.width = `${percent}%`;
+            txtSplitPercent.textContent = `${Math.round(percent)}%`;
+        }
+
+        sliderHandle.addEventListener('mousedown', () => isDraggingSlider = true);
+        window.addEventListener('mouseup', () => isDraggingSlider = false);
+        window.addEventListener('mousemove', (e) => { if (isDraggingSlider) updateSplitPosition(e.clientX); });
+
+        // Watermark Selection Box Drag & Resize
+        let isDraggingBox = false, isResizingBox = false;
+        let boxOffsetX = 0, boxOffsetY = 0, startW = 0, startH = 0, startX = 0, startY = 0;
+
+        watermarkBox.addEventListener('mousedown', (e) => {
+            if (e.target === boxResizer) return;
+            isDraggingBox = true;
+            boxOffsetX = e.clientX - watermarkBox.offsetLeft;
+            boxOffsetY = e.clientY - watermarkBox.offsetTop;
+            e.stopPropagation();
+        });
+
+        boxResizer.addEventListener('mousedown', (e) => {
+            isResizingBox = true;
+            startX = e.clientX; startY = e.clientY;
+            startW = watermarkBox.offsetWidth; startH = watermarkBox.offsetHeight;
+            e.stopPropagation();
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            const parent = document.getElementById('videoViewport');
+            const pRect = parent.getBoundingClientRect();
+
+            if (isDraggingBox) {
+                let newX = Math.max(0, Math.min(e.clientX - pRect.left - boxOffsetX, pRect.width - watermarkBox.offsetWidth));
+                let newY = Math.max(0, Math.min(e.clientY - pRect.top - boxOffsetY, pRect.height - watermarkBox.offsetHeight));
+                watermarkBox.style.left = `${newX}px`; watermarkBox.style.top = `${newY}px`; watermarkBox.style.right = 'auto';
+            } else if (isResizingBox) {
+                let newW = Math.max(30, Math.min(startW + (e.clientX - startX), pRect.width - watermarkBox.offsetLeft));
+                let newH = Math.max(20, Math.min(startH + (e.clientY - startY), pRect.height - watermarkBox.offsetTop));
+                watermarkBox.style.width = `${newW}px`; watermarkBox.style.height = `${newH}px`;
+            }
+        });
+
+        window.addEventListener('mouseup', () => { isDraggingBox = false; isResizingBox = false; });
+
+        btnToggleMaskGuide.addEventListener('click', () => {
+            const isHidden = watermarkBox.style.display === 'none';
+            watermarkBox.style.display = isHidden ? 'flex' : 'none';
+            btnToggleMaskGuide.textContent = isHidden ? 'Hide Box' : 'Show Box';
+        });
+
+        // Media Controls
+        btnPlayPause.addEventListener('click', () => {
+            initAudioGraph();
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+
+            if (isUsingDemoCanvas) {
+                if (icoPlayPause.className.includes('play')) {
+                    icoPlayPause.className = 'fa-solid fa-pause text-sm'; startDemoAudioSynth();
+                } else {
+                    icoPlayPause.className = 'fa-solid fa-play text-sm ml-0.5'; stopDemoAudioSynth();
+                }
+                return;
+            }
+
+            if (rawVideo.paused) {
+                rawVideo.play(); icoPlayPause.className = 'fa-solid fa-pause text-sm';
+            } else {
+                rawVideo.pause(); icoPlayPause.className = 'fa-solid fa-play text-sm ml-0.5';
+            }
+        });
+
+        rawVideo.addEventListener('timeupdate', () => {
+            if (rawVideo.duration) {
+                const pct = (rawVideo.currentTime / rawVideo.duration) * 100;
+                seekBarProgress.style.width = `${pct}%`;
+                seekBar.value = pct;
+                txtCurrentTime.textContent = formatTime(rawVideo.currentTime);
+            }
+        });
+
+        seekBar.addEventListener('input', () => {
+            if (rawVideo.duration) rawVideo.currentTime = (seekBar.value / 100) * rawVideo.duration;
+        });
+
+        btnMute.addEventListener('click', () => {
+            rawVideo.muted = !rawVideo.muted;
+            icoMute.className = rawVideo.muted ? 'fa-solid fa-volume-xmark text-sm text-rose-400' : 'fa-solid fa-volume-high text-sm';
+        });
+
+        rngVolume.addEventListener('input', (e) => {
+            rawVideo.volume = e.target.value; rawVideo.muted = e.target.value == 0;
+        });
+
+        // UI Label Bindings
+        rngWatermarkBlur.addEventListener('input', (e) => txtWatermarkBlur.textContent = `${e.target.value}px`);
+        rngDenoise.addEventListener('input', (e) => txtDenoiseVal.textContent = `${e.target.value}%`);
+        rngSharpen.addEventListener('input', (e) => txtSharpenVal.textContent = `${e.target.value}%`);
+        rngColor.addEventListener('input', (e) => txtColorVal.textContent = `+${e.target.value - 40}%`);
+        rngContrast.addEventListener('input', (e) => txtContrastVal.textContent = `+${e.target.value - 43}%`);
+        rngVisOpacity.addEventListener('input', (e) => txtVisOpacity.textContent = `${e.target.value}%`);
+
+        // Resolution Selector Handlers
+        document.querySelectorAll('.res-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.res-btn').forEach(b => {
+                    b.classList.remove('active', 'border-indigo-500', 'bg-indigo-500/20', 'text-indigo-300');
+                    b.classList.add('border-studio-600', 'bg-studio-700/50', 'text-slate-400');
+                });
+                this.classList.add('active', 'border-indigo-500', 'bg-indigo-500/20', 'text-indigo-300');
+                this.classList.remove('border-studio-600', 'bg-studio-700/50', 'text-slate-400');
+                
+                const targetRes = this.dataset.res;
+                currentScaleFactor = parseFloat(this.dataset.scale || "1.0");
+                document.getElementById('resBadge').textContent = `${targetRes} AI Scale`;
+                document.getElementById('txtExportRes').textContent = `${targetRes} High-Bitrate Container`;
+
+                updateCanvasDimensions(rawVideo.videoWidth || 1280, rawVideo.videoHeight || 720);
             });
+        });
 
-            document.getElementById('feedTitle').innerHTML = category === 'Saved' 
-                ? `<i class="fa-solid fa-bookmark text-amber-400"></i> Saved Library` 
-                : `<i class="fa-solid fa-compact-disc text-indigo-400"></i> ${category} Tracks`;
+        document.getElementById('btnResetFilters').addEventListener('click', () => {
+            rngWatermarkBlur.value = 12; txtWatermarkBlur.textContent = "12px";
+            rngDenoise.value = 65; txtDenoiseVal.textContent = "65%";
+            rngSharpen.value = 40; txtSharpenVal.textContent = "40%";
+            rngColor.value = 65; txtColorVal.textContent = "+25%";
+            rngContrast.value = 58; txtContrastVal.textContent = "+15%";
+            chkWatermark.checked = true; chkDenoise.checked = true; chkColorEnhance.checked = true; chkVisualizer.checked = true;
+        });
 
-            renderFeed();
+        document.getElementById('btnFullscreen').addEventListener('click', () => {
+            const container = document.getElementById('videoViewport');
+            if (!document.fullscreenElement) container.requestFullscreen().catch(err => console.log(err));
+            else document.exitFullscreen();
+        });
+
+        // Drag & Drop File Handling
+        const dropOverlay = document.getElementById('dropZoneOverlay');
+        window.addEventListener('dragover', (e) => { e.preventDefault(); dropOverlay.classList.remove('opacity-0', 'pointer-events-none'); });
+        window.addEventListener('dragleave', (e) => { if (e.clientX <= 0 || e.clientY <= 0) dropOverlay.classList.add('opacity-0', 'pointer-events-none'); });
+        window.addEventListener('drop', (e) => {
+            e.preventDefault(); dropOverlay.classList.add('opacity-0', 'pointer-events-none');
+            if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                const file = e.dataTransfer.files[0];
+                if (file.type.startsWith('video/')) {
+                    stopDemoAudioSynth(); isUsingDemoCanvas = false; cancelAnimationFrame(demoAnimFrame);
+                    if (activeObjectURL) URL.revokeObjectURL(activeObjectURL);
+                    activeObjectURL = URL.createObjectURL(file);
+                    rawVideo.src = activeObjectURL; rawVideo.load();
+                    rawVideo.play().then(() => { icoPlayPause.className = "fa-solid fa-pause text-sm"; initAudioGraph(); });
+                }
+            }
+        });
+
+        // --- HARDWARE EXPORT ENGINE ---
+        const exportModal = document.getElementById('exportModal');
+        const btnExport = document.getElementById('btnExport');
+        const btnCloseModal = document.getElementById('btnCloseModal');
+        const btnCancelExport = document.getElementById('btnCancelExport');
+        const exportProgressBar = document.getElementById('exportProgressBar');
+        const exportPercentText = document.getElementById('exportPercentText');
+        const exportStepText = document.getElementById('exportStepText');
+        const exportLogBox = document.getElementById('exportLogBox');
+        const txtRenderedTime = document.getElementById('txtRenderedTime');
+        const btnDownloadOutput = document.getElementById('btnDownloadOutput');
+        const btnDownloadText = document.getElementById('btnDownloadText');
+
+        let isExporting = false, exportRecorder = null, exportChunks = [], exportAnimationHandle = null;
+
+        function addLog(msg) {
+            const div = document.createElement('div');
+            div.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+            exportLogBox.appendChild(div);
+            exportLogBox.scrollTop = exportLogBox.scrollHeight;
         }
 
-        function toggleSavedFilter() { filterCategory('Saved'); }
+        btnExport.addEventListener('click', startExportProcess);
+        btnCloseModal.addEventListener('click', cancelExport);
+        btnCancelExport.addEventListener('click', cancelExport);
 
-        function handleSearch(e) {
-            searchQuery = e.target.value.toLowerCase().trim();
-            document.getElementById('clearSearchBtn').classList.toggle('hidden', searchQuery.length === 0);
-            renderFeed();
+        function cancelExport() {
+            if (exportRecorder && exportRecorder.state !== 'inactive') { try { exportRecorder.stop(); } catch(e){} }
+            if (exportAnimationHandle) cancelAnimationFrame(exportAnimationHandle);
+            exportModal.classList.add('opacity-0', 'pointer-events-none');
+            isExporting = false;
+            if (!isUsingDemoCanvas) rawVideo.pause(); else stopDemoAudioSynth();
         }
 
-        function clearSearch() {
-            document.getElementById('searchInput').value = '';
-            searchQuery = '';
-            document.getElementById('clearSearchBtn').classList.add('hidden');
-            renderFeed();
+        function startExportProcess() {
+            initAudioGraph();
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+
+            exportModal.classList.remove('opacity-0', 'pointer-events-none');
+            isExporting = true; exportChunks = [];
+
+            btnDownloadOutput.disabled = true;
+            btnDownloadOutput.classList.add('opacity-40', 'cursor-not-allowed');
+            btnDownloadText.textContent = "Processing Media...";
+
+            exportProgressBar.style.width = "0%"; exportPercentText.textContent = "0%";
+            exportLogBox.innerHTML = '';
+            
+            addLog("Initializing WebGL Shader Frame Stream Capture...");
+
+            const canvasStream = outputCanvas.captureStream(30);
+            const combinedStream = new MediaStream();
+
+            canvasStream.getVideoTracks().forEach(track => combinedStream.addTrack(track));
+
+            if (audioDestination && audioDestination.stream.getAudioTracks().length > 0) {
+                audioDestination.stream.getAudioTracks().forEach(track => combinedStream.addTrack(track));
+                addLog("High-fidelity Audio Stream Attached.");
+            }
+
+            let mimeType = 'video/webm;codecs=vp9,opus';
+            if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/webm;codecs=vp8,opus';
+            addLog(`Selected Codec: ${mimeType}`);
+
+            try {
+                exportRecorder = new MediaRecorder(combinedStream, { mimeType: mimeType, videoBitsPerSecond: 12000000 });
+            } catch (e) {
+                addLog("MediaRecorder Error: " + e.message); return;
+            }
+
+            exportRecorder.ondataavailable = (e) => { if (e.data && e.data.size > 0) exportChunks.push(e.data); };
+
+            const duration = isUsingDemoCanvas ? 30 : (rawVideo.duration || 30);
+            
+            if (!isUsingDemoCanvas) { rawVideo.currentTime = 0; rawVideo.play(); } else { startDemoAudioSynth(); }
+
+            exportRecorder.start(100);
+            const startTime = Date.now();
+
+            function trackExportProgress() {
+                if (!isExporting) return;
+                let currentTime = isUsingDemoCanvas ? (Date.now() - startTime) / 1000 : rawVideo.currentTime;
+                const progress = Math.min(100, Math.round((currentTime / duration) * 100));
+                
+                exportProgressBar.style.width = `${progress}%`;
+                exportPercentText.textContent = `${progress}%`;
+                txtRenderedTime.textContent = `${currentTime.toFixed(1)}s / ${duration.toFixed(1)}s`;
+
+                if (progress < 30) exportStepText.textContent = "Filtering Shader Artifacts & Denoising...";
+                else if (progress < 70) exportStepText.textContent = "Executing WebGL Spatial Watermark Inpainting...";
+                else if (progress < 99) exportStepText.textContent = "Synchronizing Audio & Video Tracks...";
+
+                if (currentTime >= duration || progress >= 100) {
+                    exportStepText.textContent = "Finalizing Container File...";
+                    addLog("Export complete! Finalizing output bitstream...");
+                    
+                    if (exportRecorder && exportRecorder.state !== 'inactive') exportRecorder.stop();
+                    if (!isUsingDemoCanvas) rawVideo.pause(); else stopDemoAudioSynth();
+
+                    setTimeout(() => {
+                        btnDownloadOutput.disabled = false;
+                        btnDownloadOutput.classList.remove('opacity-40', 'cursor-not-allowed');
+                        btnDownloadText.textContent = "Download Clean Video";
+                        addLog("SUCCESS: Clean video rendered with 100% audio fidelity!");
+                    }, 500);
+
+                    return;
+                }
+
+                exportAnimationHandle = requestAnimationFrame(trackExportProgress);
+            }
+
+            exportAnimationHandle = requestAnimationFrame(trackExportProgress);
         }
 
-        function resetFilters() {
-            clearSearch();
-            filterCategory('MUSIC');
+        btnDownloadOutput.addEventListener('click', () => {
+            if (exportChunks.length === 0) return;
+            const blob = new Blob(exportChunks, { type: 'video/webm' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.style.display = 'none'; a.href = url;
+            a.download = `VividAI_Enhanced_Video_${Date.now()}.webm`;
+            document.body.appendChild(a); a.click();
+            
+            setTimeout(() => { document.body.removeChild(a); window.URL.revokeObjectURL(url); }, 100);
+        });
+
+        // Onboarding Tour
+        const onboardingOverlay = document.getElementById('onboardingOverlay');
+        const btnStartTour = document.getElementById('btnStartTour');
+        const btnCloseTour = document.getElementById('btnCloseTour');
+        const btnPrevTour = document.getElementById('btnPrevTour');
+        const btnNextTour = document.getElementById('btnNextTour');
+        
+        const tourStepBadge = document.getElementById('tourStepBadge');
+        const tourTitle = document.getElementById('tourTitle');
+        const tourDescription = document.getElementById('tourDescription');
+        const tourActionHint = document.getElementById('tourActionHint');
+        const tourIcon = document.getElementById('tourIcon');
+        const tourDots = document.getElementById('tourDots').children;
+
+        let currentTourStep = 0;
+        const tourSteps = [
+            { step: "STEP 1 OF 4", title: "Upload Video or Play Demo Track", description: "Select 'Upload Video' to load your media track (MP4, MOV, WEBM) or click 'Demo Video' to test our animated track.", hint: "Supported Formats: MP4, MOV, WEBM.", icon: "fa-solid fa-cloud-arrow-up" },
+            { step: "STEP 2 OF 4", title: "Fine-tune AI Cleanup Filters", description: "Adjust watermark inpaint area, apply denoise smoothing, sharpen details, HDR color grading, and spectrum analyzer overlay.", hint: "Select upscale resolution target (1080p, 2K, 4K) at bottom left.", icon: "fa-solid fa-sliders" },
+            { step: "STEP 3 OF 4", title: "Real-time Comparison Viewport", description: "Drag the divider handle across the player screen to inspect original video input against real-time WebGL enhanced canvas output.", hint: "Resize or position watermark box directly over logos.", icon: "fa-solid fa-arrows-left-right" },
+            { step: "STEP 4 OF 4", title: "Hardware Accelerated Export Engine", description: "Click 'Export Clean Video'. WebAudio multiplexer records full audio while preserving exact source duration.", hint: "Outputs retain 100% audio fidelity.", icon: "fa-solid fa-download" }
+        ];
+
+        function renderTourStep(index) {
+            const data = tourSteps[index];
+            tourStepBadge.textContent = data.step; tourTitle.textContent = data.title;
+            tourDescription.textContent = data.description; tourActionHint.textContent = data.hint;
+            tourIcon.className = `${data.icon} text-indigo-400 text-base`;
+            btnPrevTour.disabled = index === 0;
+            btnNextTour.innerHTML = index === tourSteps.length - 1 ? '<span>Start Studio</span> <i class="fa-solid fa-check ml-1.5"></i>' : '<span>Next Step</span> <i class="fa-solid fa-arrow-right ml-1.5"></i>';
+
+            Array.from(tourDots).forEach((dot, i) => { dot.className = i === index ? "w-2.5 h-2.5 rounded-full bg-indigo-500" : "w-2.5 h-2.5 rounded-full bg-studio-600"; });
         }
 
-        function formatNumber(num) {
-            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
-            return num.toString();
-        }
+        function openTour() { currentTourStep = 0; renderTourStep(0); onboardingOverlay.classList.remove('opacity-0', 'pointer-events-none'); }
+        function closeTour() { onboardingOverlay.classList.add('opacity-0', 'pointer-events-none'); }
 
-        function timeAgo(dateString) {
-            const diff = Math.floor((new Date() - new Date(dateString)) / (1000 * 60 * 60 * 24));
-            if (diff <= 0) return 'Today';
-            if (diff === 1) return 'Yesterday';
-            if (diff < 30) return `${diff} days ago`;
-            if (diff < 365) return `${Math.floor(diff / 30)} months ago`;
-            return `${Math.floor(diff / 365)} years ago`;
-        }
+        btnStartTour.addEventListener('click', openTour);
+        btnCloseTour.addEventListener('click', closeTour);
+        btnNextTour.addEventListener('click', () => { if (currentTourStep < tourSteps.length - 1) { currentTourStep++; renderTourStep(currentTourStep); } else closeTour(); });
+        btnPrevTour.addEventListener('click', () => { if (currentTourStep > 0) { currentTourStep--; renderTourStep(currentTourStep); } });
 
-        function slugify(text) {
-            return text.toString().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '');
-        }
-
-        function escapeHtml(str) {
-            return (str || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-        }
-
-        function showToast(message) {
-            const toast = document.getElementById('toastNotification');
-            document.getElementById('toastMessage').textContent = message;
-            toast.classList.remove('hidden', 'translate-y-4');
-            toast.classList.add('flex', 'translate-y-0');
-            setTimeout(() => {
-                toast.classList.add('hidden', 'translate-y-4');
-                toast.classList.remove('flex', 'translate-y-0');
-            }, 3000);
-        }
+        window.addEventListener('load', () => { setTimeout(openTour, 500); });
     </script>
 </body>
 </html>
